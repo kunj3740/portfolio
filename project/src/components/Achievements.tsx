@@ -6,6 +6,7 @@ interface Achievement {
   title: string;
   description: string;
   color: string;
+  link: string;
 }
 
 const Achievements: React.FC = () => {
@@ -15,32 +16,37 @@ const Achievements: React.FC = () => {
     {
       icon: <Trophy className="w-6 h-6" />,
       title: 'LeetCode Knight Badge',
-      description: 'Top 6% globally with strong problem-solving skills',
+      description: 'Top 4.91% globally with strong problem-solving skills',
       color: 'from-yellow-500 to-amber-600',
+      link: 'https://leetcode.com/kunjdave/'
     },
     {
       icon: <Code className="w-6 h-6" />,
       title: 'LeetCode Contest Rating: 1850+',
       description: 'Consistently performing well in competitive programming contests',
       color: 'from-blue-500 to-indigo-600',
+      link: 'https://leetcode.com/kunjdave/'
     },
     {
       icon: <Star className="w-6 h-6" />,
       title: 'Top 1% Problem Solver',
       description: 'On Coding Ninjas with 13.8k+ minutes spent solving problems',
       color: 'from-red-500 to-pink-600',
+      link: 'https://certificate.codingninjas.com/certificate/6a2bbf218e618e5f/YearlyStats'
     },
     {
       icon: <Award className="w-6 h-6" />,
       title: 'CodeChef: 2 Star',
       description: 'Maximum Rating: 1514, demonstrating algorithmic proficiency',
       color: 'from-purple-500 to-violet-600',
+      link: 'https://www.codechef.com/users/kunjdave'
     },
     {
       icon: <Award className="w-6 h-6" />,
       title: 'Certified Full Stack Developer',
       description: '100xdevs by Harkirat Singh - comprehensive web development training',
       color: 'from-green-500 to-emerald-600',
+      link: 'https://app.100xdevs.com/certificate/verify/LLF9YDIO'
     },
   ];
   
@@ -79,9 +85,12 @@ const Achievements: React.FC = () => {
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {achievements.map((achievement, index) => (
-              <div 
+              <a 
                 key={index}
-                className="achievement-item bg-gray-800 rounded-lg p-6 shadow-lg opacity-0 scale-95"
+                href={achievement.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="achievement-item bg-gray-800 rounded-lg p-6 shadow-lg opacity-0 scale-95 block hover:bg-gray-750 transition-colors duration-300"
               >
                 <div className="flex justify-between items-start mb-4">
                   <div className={`p-3 rounded-lg bg-gradient-to-r ${achievement.color} text-white`}>
@@ -95,7 +104,7 @@ const Achievements: React.FC = () => {
                 
                 <h3 className="text-xl font-bold text-white mb-2">{achievement.title}</h3>
                 <p className="text-gray-300">{achievement.description}</p>
-              </div>
+              </a>
             ))}
           </div>
           
@@ -108,27 +117,27 @@ const Achievements: React.FC = () => {
               
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
                 <a 
-                  href="https://leetcode.com/kunj_dave" 
+                  href="https://leetcode.com/kunjdave/" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="bg-gray-700 hover:bg-gray-600 p-4 rounded-lg text-center transition-colors"
                 >
                   <h4 className="text-lg font-bold text-white mb-2">LeetCode</h4>
-                  <p className="text-gray-300 text-sm">Knight Badge | Rating: 1850+</p>
+                  <p className="text-gray-300 text-sm">Knight Badge | 300+ problems</p>
                 </a>
                 
                 <a 
-                  href="https://www.codingninjas.com/studio/profile/kunj_dave" 
+                  href="https://www.naukri.com/code360/profile/adf729ec-6fac-43b2-ae85-4160a801f104" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="bg-gray-700 hover:bg-gray-600 p-4 rounded-lg text-center transition-colors"
                 >
                   <h4 className="text-lg font-bold text-white mb-2">Coding Ninjas</h4>
-                  <p className="text-gray-300 text-sm">Top 1% Problem Solver</p>
+                  <p className="text-gray-300 text-sm">Specialist | 300+ problems</p>
                 </a>
                 
                 <a 
-                  href="https://www.codechef.com/users/kunj_dave" 
+                  href="https://www.codechef.com/users/kunjdave" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="bg-gray-700 hover:bg-gray-600 p-4 rounded-lg text-center transition-colors"

@@ -452,7 +452,7 @@ const Skills = () => {
                     <Sparkles size={36} className="text-amber-400" />
                   </div>
                 </div>
-                <h4 className="mt-4 text-lg font-bold text-white">AI/ML</h4>
+                <h4 className="mt-4 text-lg font-bold text-white">AI</h4>
                 <p className="text-gray-400 text-sm">Intermediate</p>
               </div>
             </div>

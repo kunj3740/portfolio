@@ -36,19 +36,19 @@ const Contact: React.FC = () => {
       icon: <Linkedin className="w-5 h-5" />,
       label: 'LinkedIn',
       value: 'linkedin.com/in/kunj-dave',
-      link: 'https://linkedin.com/in/kunj-dave',
+      link: 'https://linkedin.com/in/kunj1903',
     },
     {
       icon: <Github className="w-5 h-5" />,
       label: 'GitHub',
       value: 'github.com/kunjdave',
-      link: 'https://github.com/kunjdave',
+      link: 'https://github.com/kunj3740',
     },
     {
       icon: <Code className="w-5 h-5" />,
       label: 'LeetCode',
       value: 'leetcode.com/kunj_dave',
-      link: 'https://leetcode.com/kunj_dave',
+      link: 'https://leetcode.com/kunjdave',
     },
   ];
   
@@ -211,9 +211,9 @@ const Contact: React.FC = () => {
               <div className="bg-gray-800 rounded-lg p-6 mt-8">
                 <h3 className="text-xl font-bold text-white mb-4">Looking For</h3>
                 <div className="bg-gradient-to-r from-purple-600/20 to-indigo-600/20 p-4 rounded-lg border border-purple-500/30">
-                  <p className="text-white font-medium mb-2">Full Stack / Backend Development Internship</p>
+                  <p className="text-white font-medium mb-2">Softwear Development Internship</p>
                   <p className="text-gray-300 text-sm">
-                    Passionate about building scalable, high-performance web applications using modern technologies. Open to remote or on-site opportunities.
+                    Passionate about building scalable, high-performance web applications using modern technologies and integrating gen AI and make it Secure. Open to remote or on-site opportunities.
                   </p>
                 </div>
               </div>

@@ -188,7 +188,7 @@ const About = () => {
             {/* Left Column - Profile & Info */}
             <motion.div variants={itemVariants} className="md:col-span-5 space-y-8">
               <div className="relative group">
-                <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-fuchsia-600 rounded-2xl blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200" />
+                <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-teal-600 rounded-2xl blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200" />
                 <div className="relative aspect-square overflow-hidden rounded-xl bg-gray-900 ring-1 ring-gray-800/10">
                   <img
                     src="https://res.cloudinary.com/dnluacn1g/image/upload/v1745310765/WhatsApp_Image_2025-04-22_at_14.00.56_6a95f703_w03nkc.jpg"
@@ -198,15 +198,15 @@ const About = () => {
                   <div className="absolute inset-0 bg-gradient-to-t from-gray-900/90 via-gray-900/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 </div>
               </div>
-
+              
               <div className="space-y-4">
                 <motion.div
                   variants={itemVariants}
                   whileHover={{ scale: 1.02 }}
                   className="flex items-center gap-4 bg-gray-800/50 backdrop-blur-sm p-4 rounded-xl border border-gray-700/50"
                 >
-                  <div className="bg-purple-500/20 p-3 rounded-lg">
-                    <Calendar className="text-purple-400" size={20} />
+                  <div className="bg-blue-500/20 p-3 rounded-lg">
+                    <Calendar className="text-blue-400" size={20} />
                   </div>
                   <div>
                     <h4 className="text-gray-400 text-sm font-medium">Education</h4>
@@ -214,28 +214,28 @@ const About = () => {
                     <p className="text-gray-400 text-sm">BVM Engineering College</p>
                   </div>
                 </motion.div>
-
+                
                 <motion.div
                   variants={itemVariants}
                   whileHover={{ scale: 1.02 }}
                   className="flex items-center gap-4 bg-gray-800/50 backdrop-blur-sm p-4 rounded-xl border border-gray-700/50"
                 >
-                  <div className="bg-fuchsia-500/20 p-3 rounded-lg">
-                    <MapPin className="text-fuchsia-400" size={20} />
+                  <div className="bg-teal-500/20 p-3 rounded-lg">
+                    <MapPin className="text-teal-400" size={20} />
                   </div>
                   <div>
                     <h4 className="text-gray-400 text-sm font-medium">Location</h4>
                     <p className="text-white font-semibold">Mehsana, Gujarat, India</p>
                   </div>
                 </motion.div>
-
+                
                 <motion.div
                   variants={itemVariants}
                   whileHover={{ scale: 1.02 }}
                   className="flex items-center gap-4 bg-gray-800/50 backdrop-blur-sm p-4 rounded-xl border border-gray-700/50"
                 >
-                  <div className="bg-violet-500/20 p-3 rounded-lg">
-                    <Search className="text-violet-400" size={20} />
+                  <div className="bg-blue-500/20 p-3 rounded-lg">
+                    <Search className="text-blue-400" size={20} />
                   </div>
                   <div>
                     <h4 className="text-gray-400 text-sm font-medium">Looking For</h4>
@@ -243,7 +243,6 @@ const About = () => {
                   </div>
                 </motion.div>
               </div>
-
             </motion.div>
 
             {/* Right Column - About Text & Skills */}

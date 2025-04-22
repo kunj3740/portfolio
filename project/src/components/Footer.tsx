@@ -22,7 +22,7 @@ const Footer: React.FC = () => {
             <div className="flex flex-col items-center md:items-end">
               <div className="flex space-x-4 mb-4">
                 <a 
-                  href="https://github.com/kunjdave" 
+                  href="https://github.com/kunj3740" 
                   target="_blank" 
                   rel="noopener noreferrer" 
                   className="text-gray-400 hover:text-white transition-colors"
@@ -30,7 +30,7 @@ const Footer: React.FC = () => {
                   <Github size={20} />
                 </a>
                 <a 
-                  href="https://linkedin.com/in/kunj-dave" 
+                  href="https://linkedin.com/in/kunj1903" 
                   target="_blank" 
                   rel="noopener noreferrer" 
                   className="text-gray-400 hover:text-white transition-colors"
