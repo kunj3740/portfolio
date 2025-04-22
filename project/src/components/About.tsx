@@ -177,7 +177,7 @@ const About = () => {
         <motion.div initial="hidden" animate={controls} variants={containerVariants} className="max-w-6xl mx-auto">
           {/* Section header */}
           <motion.div variants={itemVariants} className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4 inline-block">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 inline-block">
               About{" "}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-fuchsia-500">Me</span>
             </h2>
@@ -244,35 +244,6 @@ const About = () => {
                 </motion.div>
               </div>
 
-              <motion.div
-                variants={itemVariants}
-                className="flex flex-col gap-4 bg-gray-800/30 backdrop-blur-sm p-6 rounded-xl border border-gray-700/50"
-              >
-                <h3 className="text-xl font-bold text-white flex items-center gap-2">
-                  <Briefcase className="text-purple-400" size={18} />
-                  Connect With Me
-                </h3>
-                <div className="flex gap-3">
-                  <a
-                    href="https://github.com/kunjdave"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex-1 flex items-center justify-center gap-2 bg-gray-900 hover:bg-gray-800 text-white font-medium py-3 px-4 rounded-lg transition-colors duration-300"
-                  >
-                    <Github size={18} />
-                    <span>GitHub</span>
-                  </a>
-                  <a
-                    href="https://linkedin.com/in/kunj-dave"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-purple-600 to-fuchsia-600 hover:from-purple-700 hover:to-fuchsia-700 text-white font-medium py-3 px-4 rounded-lg transition-colors duration-300"
-                  >
-                    <Linkedin size={18} />
-                    <span>LinkedIn</span>
-                  </a>
-                </div>
-              </motion.div>
             </motion.div>
 
             {/* Right Column - About Text & Skills */}
@@ -310,51 +281,6 @@ const About = () => {
                 variants={itemVariants}
                 className="bg-gray-800/30 backdrop-blur-sm p-6 rounded-xl border border-gray-700/50"
               >
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="bg-gradient-to-r from-fuchsia-500 to-purple-500 p-2 rounded-lg">
-                    <Sparkles className="text-white" size={20} />
-                  </div>
-                  <h3 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-400 to-purple-400">
-                    Technical Skills
-                  </h3>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {skills.map((skill, index) => (
-                    <motion.div
-                      key={skill.name}
-                      className="relative"
-                      onMouseEnter={() => setActiveSkill(index)}
-                      onMouseLeave={() => setActiveSkill(null)}
-                      whileHover={{ scale: 1.02 }}
-                    >
-                      <div className="bg-gray-900/80 rounded-lg p-4 border border-gray-800 h-full">
-                        <div className="flex justify-between items-center mb-2">
-                          <h4 className="font-medium text-white">{skill.name}</h4>
-                          <span className="text-sm text-gray-400">{skill.level}%</span>
-                        </div>
-                        <div className="w-full h-2 bg-gray-800 rounded-full overflow-hidden">
-                          <div
-                            className={`h-full rounded-full bg-gradient-to-r ${skill.color}`}
-                            style={{
-                              width: `${skill.level}%`,
-                              transition: "width 1s ease-in-out",
-                            }}
-                          />
-                        </div>
-                        {activeSkill === index && (
-                          <div className="absolute -inset-px bg-gradient-to-r from-purple-500/20 to-fuchsia-500/20 rounded-lg blur-sm" />
-                        )}
-                      </div>
-                    </motion.div>
-                  ))}
-                </div>
-              </motion.div>
-
-              <motion.div
-                variants={itemVariants}
-                className="bg-gray-800/30 backdrop-blur-sm p-6 rounded-xl border border-gray-700/50"
-              >
                 <div className="flex items-center gap-3 mb-4">
                   <div className="bg-gradient-to-r from-violet-500 to-purple-500 p-2 rounded-lg">
                     <Cpu className="text-white" size={20} />
@@ -383,6 +309,36 @@ const About = () => {
                       {interest}
                     </span>
                   ))}
+                </div>
+              </motion.div>
+
+              <motion.div
+                variants={itemVariants}
+                className="flex flex-col gap-4 bg-gray-800/30 backdrop-blur-sm p-6 rounded-xl border border-gray-700/50"
+              >
+                <h3 className="text-xl font-bold text-white flex items-center gap-2">
+                  <Briefcase className="text-purple-400" size={18} />
+                  Connect With Me
+                </h3>
+                <div className="flex gap-3">
+                  <a
+                    href="https://github.com/kunjdave"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 flex items-center justify-center gap-2 bg-gray-900 hover:bg-gray-800 text-white font-medium py-3 px-4 rounded-lg transition-colors duration-300"
+                  >
+                    <Github size={18} />
+                    <span>GitHub</span>
+                  </a>
+                  <a
+                    href="https://linkedin.com/in/kunj-dave"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-purple-600 to-fuchsia-600 hover:from-purple-700 hover:to-fuchsia-700 text-white font-medium py-3 px-4 rounded-lg transition-colors duration-300"
+                  >
+                    <Linkedin size={18} />
+                    <span>LinkedIn</span>
+                  </a>
                 </div>
               </motion.div>
             </motion.div>

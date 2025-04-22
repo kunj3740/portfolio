@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { Calendar, Briefcase, CheckCircle } from 'lucide-react';
+import { Calendar, CheckCircle } from 'lucide-react';
 
 const Experience: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
@@ -75,28 +75,6 @@ const Experience: React.FC = () => {
               
               {/* Timeline Circle */}
               <div className="absolute left-0 md:left-1/2 w-8 h-8 bg-purple-600 rounded-full border-4 border-gray-900 transform md:translate-x-[-50%] hidden md:block"></div>
-            </div>
-            
-            {/* Education */}
-            <div className="timeline-item flex flex-col md:flex-row md:items-center opacity-0">
-              <div className="md:w-1/2 md:pr-12 order-1 md:order-1 mb-4 md:mb-0">
-                <div className="bg-gray-800 rounded-lg p-5 border-l-4 border-indigo-500 shadow-lg transform transition-transform duration-300 hover:scale-105">
-                  <p className="text-gray-300">Pursuing my B.Tech in Information Technology with a focus on modern web technologies, AI/ML, and software engineering. Maintaining a CGPA of 8.0 while working on practical projects and internships.</p>
-                </div>
-              </div>
-              
-              <div className="md:w-1/2 md:pl-12 md:text-left order-2 md:order-2">
-                <h3 className="text-xl font-bold text-white">B.Tech in Information Technology</h3>
-                <p className="text-indigo-400 font-medium">Birla Vishvakarma Mahavidyalaya</p>
-                <div className="flex items-center mt-2">
-                  <Calendar size={16} className="text-gray-400 mr-2" />
-                  <p className="text-gray-300 text-sm">2022 – 2026</p>
-                </div>
-                <p className="text-gray-400 mt-4">CGPA: 8.0</p>
-              </div>
-              
-              {/* Timeline Circle */}
-              <div className="absolute left-0 md:left-1/2 w-8 h-8 bg-indigo-600 rounded-full border-4 border-gray-900 transform md:translate-x-[-50%] hidden md:block"></div>
             </div>
           </div>
         </div>
