@@ -1,93 +1,161 @@
-import React, { useState, useEffect } from 'react';
-import { Menu, X } from 'lucide-react';
+"use client"
 
-const Header: React.FC = () => {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+import { useEffect, useMemo, useState } from "react"
+import { Menu, X } from 'lucide-react'
+
+type NavLink = {
+  name: string
+  href: string
+}
+
+const LINKS: NavLink[] = [
+  { name: "Home", href: "#hero" },
+  { name: "About", href: "#about" },
+  { name: "Experience", href: "#experience" },
+  { name: "Projects", href: "#projects-section" },
+  { name: "Skills", href: "#skills" },
+  { name: "Achievements", href: "#achievements" },
+  { name: "Contact", href: "#contact" },
+]
+
+export default function Header() {
+  const [isScrolled, setIsScrolled] = useState(false)
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [active, setActive] = useState<string>("#hero")
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
+    const handleScroll = () => setIsScrolled(window.scrollY > 10)
+    window.addEventListener("scroll", handleScroll)
+    handleScroll()
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
 
-    window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
+  // Observe sections to highlight the current section in nav
+  useEffect(() => {
+    const sectionIds = LINKS.map((l) => l.href.replace("#", ""))
+    const sections = sectionIds
+      .map((id) => document.getElementById(id))
+      .filter(Boolean) as HTMLElement[]
 
-  const navLinks = [
-    { name: 'Home', href: '#hero' },
-    { name: 'About', href: '#about' },
-    { name: 'Experience', href: '#experience' },
-    { name: 'Projects', href: '#projects-section' },
-    { name: 'Skills', href: '#skills' },
-    { name: 'Achievements', href: '#achievements' },
-    { name: 'Contact', href: '#contact' },
-  ];
+    if (!sections.length) return
+
+    const obs = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => (b.intersectionRatio ?? 0) - (a.intersectionRatio ?? 0))
+        if (visible[0]?.target?.id) {
+          setActive(`#${visible[0].target.id}`)
+        }
+      },
+      { root: null, rootMargin: "0px 0px -40% 0px", threshold: [0.3, 0.5, 0.7] },
+    )
+
+    sections.forEach((s) => obs.observe(s))
+    return () => obs.disconnect()
+  }, [])
+
+  const nav = useMemo(() => LINKS, [])
 
   return (
     <header
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${
-        isScrolled ? 'bg-gray-950/90 backdrop-blur-md py-4 shadow-lg' : 'bg-transparent py-6'
+      role="banner"
+      className={`fixed inset-x-0 top-0 z-50 transition-all ${
+        isScrolled ? "py-2" : "py-4"
       }`}
     >
-      <div className="container mx-auto px-4 md:px-8">
-        <div className="flex justify-between items-center">
-          <a 
-            href="#hero" 
-            className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-indigo-500 hover:scale-105 transition-transform duration-300"
+      <div
+        className={`mx-4 md:mx-8 rounded-xl border backdrop-blur supports-[backdrop-filter]:bg-slate-950/50 ${
+          isScrolled ? "border-slate-800/70 bg-slate-950/60" : "border-slate-800/40 bg-slate-950/40"
+        }`}
+      >
+        <div className="container mx-auto px-4 md:px-6 h-14 flex items-center justify-between">
+          <a
+            href="#hero"
+            className="text-lg md:text-xl font-extrabold tracking-tight bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent"
+            aria-label="Go to home"
           >
-            <span className="text-purple-500"></span>
+            Kunj Dave
           </a>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:block">
-            <ul className="flex space-x-10">
-              {navLinks.map((link) => (
-                <li key={link.name}>
-                  <a
-                    href={link.href}
-                    className="text-gray-300 hover:text-purple-400 transition-all duration-300 text-base relative group"
-                  >
-                    {link.name}
-                    <span className="absolute left-0 bottom-0 w-0 h-0.5 bg-purple-500 transition-all duration-300 group-hover:w-full"></span>
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </nav>
-
-          {/* Mobile Menu Button */}
-          <button 
-            className="md:hidden text-gray-300 focus:outline-none"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-          >
-            {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
-          </button>
-        </div>
-      </div>
-
-      {/* Mobile Navigation */}
-      {isMenuOpen && (
-        <nav className="md:hidden bg-gray-900/95 backdrop-blur-md py-6 px-4 absolute w-full top-full shadow-lg">
-          <ul className="space-y-6">
-            {navLinks.map((link) => (
-              <li key={link.name}>
+          {/* Desktop nav */}
+          <nav className="hidden md:flex items-center gap-6" aria-label="Main navigation">
+            {nav.map((link) => {
+              const isActive = active === link.href
+              return (
                 <a
+                  key={link.href}
                   href={link.href}
-                  className="text-gray-300 hover:text-purple-400 transition-colors duration-300 block py-2 text-lg font-medium"
-                  onClick={() => setIsMenuOpen(false)}
+                  className={`relative text-sm transition-colors ${
+                    isActive ? "text-white" : "text-slate-300 hover:text-emerald-300"
+                  }`}
                 >
                   {link.name}
+                  <span
+                    className={`absolute -bottom-1 left-0 h-[2px] rounded-full bg-gradient-to-r from-emerald-400 to-cyan-400 transition-all ${
+                      isActive ? "w-full" : "w-0 group-hover:w-full"
+                    }`}
+                  />
+                </a>
+              )
+            })}
+            <a
+              href="#contact"
+              className="ml-2 inline-flex items-center rounded-md border border-emerald-500/40 bg-emerald-600/10 px-3 py-1.5 text-sm text-emerald-300 hover:bg-emerald-600/20 transition-colors"
+            >
+              Let’s talk
+            </a>
+          </nav>
+
+          {/* Mobile menu toggle */}
+          <button
+            className="md:hidden text-slate-200 p-2 rounded-md hover:bg-slate-800/70 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+            onClick={() => setIsMenuOpen((s) => !s)}
+            aria-expanded={isMenuOpen}
+            aria-controls="mobile-nav"
+            aria-label="Toggle menu"
+          >
+            {isMenuOpen ? <X size={22} /> : <Menu size={22} />}
+          </button>
+        </div>
+
+        {/* Mobile nav */}
+        {isMenuOpen && (
+          <nav
+            id="mobile-nav"
+            className="md:hidden border-t border-slate-800/60 px-4 py-3"
+            aria-label="Mobile navigation"
+          >
+            <ul className="flex flex-col">
+              {nav.map((link) => {
+                const isActive = active === link.href
+                return (
+                  <li key={link.href}>
+                    <a
+                      href={link.href}
+                      onClick={() => setIsMenuOpen(false)}
+                      className={`block w-full rounded-md px-3 py-2 text-sm transition-colors ${
+                        isActive ? "text-white bg-slate-800/60" : "text-slate-300 hover:text-white hover:bg-slate-800/40"
+                      }`}
+                    >
+                      {link.name}
+                    </a>
+                  </li>
+                )
+              })}
+              <li className="pt-2">
+                <a
+                  href="#contact"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="block w-full text-center rounded-md border border-emerald-500/40 bg-emerald-600/10 px-3 py-2 text-sm text-emerald-300 hover:bg-emerald-600/20 transition-colors"
+                >
+                  Let’s talk
                 </a>
               </li>
-            ))}
-          </ul>
-        </nav>
-      )}
+            </ul>
+          </nav>
+        )}
+      </div>
     </header>
-  );
-};
-
-export default Header;
+  )
+}

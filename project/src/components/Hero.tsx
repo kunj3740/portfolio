@@ -1,786 +1,657 @@
+// 'use client'
 
-// "use client"
-
-// import type React from "react"
 // import { useEffect, useRef, useState } from "react"
-// import { ChevronDown, Code, Sparkles, Zap } from "lucide-react"
+// import { motion, AnimatePresence } from "framer-motion"
+// import { ArrowRight, Sparkles, Github, Linkedin, Mail, Download, Code2 } from 'lucide-react'
 
-// const Hero: React.FC = () => {
-//   const textRef = useRef<HTMLHeadingElement>(null)
-//   const canvasRef = useRef<HTMLCanvasElement>(null)
-//   const containerRef = useRef<HTMLDivElement>(null)
-//   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
-//   const [isHovering, setIsHovering] = useState(false)
-//   const [cursorText, setCursorText] = useState("")
-//   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 })
-//   const [activeSection, setActiveSection] = useState(0)
+// type Vec2 = { x: number; y: number }
 
-//   // Animated background with interactive elements
+// export default function Hero() {
+//   const sectionRef = useRef<HTMLElement>(null)
+//   const spotlightRef = useRef<HTMLDivElement>(null)
+//   const [roleIndex, setRoleIndex] = useState(0)
+//   const [mouse, setMouse] = useState<Vec2>({ x: 0, y: 0 })
+
+//   const roles = ["Full‑Stack Developer", "AI Integrator", "System Designer", "Problem Solver"]
+
+//   // Rotate role every 3s
 //   useEffect(() => {
-//     const canvas = canvasRef.current
-//     if (!canvas) return
-
-//     const ctx = canvas.getContext("2d")
-//     if (!ctx) return
-
-//     let animationFrameId: number
-//     const particles: Particle[] = []
-//     const particleCount = 100
-//     const connectionDistance = 150
-//     const mouseRadius = 120
-
-//     class Particle {
-//       x: number
-//       y: number
-//       size: number
-//       baseSize: number
-//       speedX: number
-//       speedY: number
-//       color: string
-//       originalX: number
-//       originalY: number
-//       density: number
-
-//       constructor() {
-//         this.x = Math.random() * canvas.width
-//         this.y = Math.random() * canvas.height
-//         this.originalX = this.x
-//         this.originalY = this.y
-//         this.size = Math.random() * 3 + 1
-//         this.baseSize = this.size
-//         this.speedX = (Math.random() - 0.5) * 0.5
-//         this.speedY = (Math.random() - 0.5) * 0.5
-//         this.color = `hsla(${280 + Math.random() * 60}, 100%, 75%, ${Math.random() * 0.5 + 0.2})`
-//         this.density = Math.random() * 30 + 1
-//       }
-
-//       update() {
-//         // Normal movement
-//         this.x += this.speedX
-//         this.y += this.speedY
-
-//         // Mouse interaction
-//         const dx = mousePosition.x - this.x
-//         const dy = mousePosition.y - this.y
-//         const distance = Math.sqrt(dx * dx + dy * dy)
-
-//         if (distance < mouseRadius && isHovering) {
-//           const forceDirectionX = dx / distance
-//           const forceDirectionY = dy / distance
-//           const force = (mouseRadius - distance) / mouseRadius
-//           const directionX = forceDirectionX * force * this.density * 0.6
-//           const directionY = forceDirectionY * force * this.density * 0.6
-
-//           this.x -= directionX
-//           this.y -= directionY
-//           this.size = this.baseSize + 2
-//         } else {
-//           if (this.size > this.baseSize) {
-//             this.size -= 0.1
-//           }
-
-//           // Return to original position with slight randomness
-//           if (Math.abs(this.x - this.originalX) > 50 || Math.abs(this.y - this.originalY) > 50) {
-//             this.x += (this.originalX - this.x) * 0.02
-//             this.y += (this.originalY - this.y) * 0.02
-//           }
-//         }
-
-//         // Boundary check
-//         if (this.x > canvas.width) this.x = 0
-//         else if (this.x < 0) this.x = canvas.width
-//         if (this.y > canvas.height) this.y = 0
-//         else if (this.y < 0) this.y = canvas.height
-//       }
-
-//       draw() {
-//         if (!ctx) return
-//         ctx.beginPath()
-//         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2)
-//         ctx.fillStyle = this.color
-//         ctx.fill()
-//       }
-//     }
-
-//     const init = () => {
-//       canvas.width = window.innerWidth
-//       canvas.height = window.innerHeight
-
-//       for (let i = 0; i < particleCount; i++) {
-//         particles.push(new Particle())
-//       }
-//     }
-
-//     const connectParticles = () => {
-//       for (let i = 0; i < particles.length; i++) {
-//         for (let j = i; j < particles.length; j++) {
-//           const dx = particles[i].x - particles[j].x
-//           const dy = particles[i].y - particles[j].y
-//           const distance = Math.sqrt(dx * dx + dy * dy)
-
-//           if (distance < connectionDistance) {
-//             const opacity = 1 - distance / connectionDistance
-//             ctx!.strokeStyle = `hsla(280, 100%, 75%, ${opacity * 0.2})`
-//             ctx!.lineWidth = 1
-//             ctx!.beginPath()
-//             ctx!.moveTo(particles[i].x, particles[i].y)
-//             ctx!.lineTo(particles[j].x, particles[j].y)
-//             ctx!.stroke()
-//           }
-//         }
-//       }
-//     }
-
-//     const animate = () => {
-//       if (!ctx) return
-//       ctx.clearRect(0, 0, canvas.width, canvas.height)
-
-//       particles.forEach((particle) => {
-//         particle.update()
-//         particle.draw()
-//       })
-
-//       connectParticles()
-
-//       animationFrameId = requestAnimationFrame(animate)
-//     }
-
-//     init()
-//     animate()
-
-//     const handleResize = () => {
-//       canvas.width = window.innerWidth
-//       canvas.height = window.innerHeight
-//       init()
-//     }
-
-//     window.addEventListener("resize", handleResize)
-
-//     return () => {
-//       cancelAnimationFrame(animationFrameId)
-//       window.removeEventListener("resize", handleResize)
-//     }
-//   }, [mousePosition, isHovering])
-
-//   // Mouse tracking for particle interaction
-//   useEffect(() => {
-//     const handleMouseMove = (e: MouseEvent) => {
-//       setMousePosition({ x: e.clientX, y: e.clientY })
-//       setCursorPosition({ x: e.clientX, y: e.clientY })
-//     }
-
-//     const handleMouseEnter = () => setIsHovering(true)
-//     const handleMouseLeave = () => setIsHovering(false)
-
-//     const container = containerRef.current
-//     if (container) {
-//       container.addEventListener("mousemove", handleMouseMove)
-//       container.addEventListener("mouseenter", handleMouseEnter)
-//       container.addEventListener("mouseleave", handleMouseLeave)
-//     }
-
-//     return () => {
-//       if (container) {
-//         container.removeEventListener("mousemove", handleMouseMove)
-//         container.removeEventListener("mouseenter", handleMouseEnter)
-//         container.removeEventListener("mouseleave", handleMouseLeave)
-//       }
-//     }
+//     const id = setInterval(() => setRoleIndex((i) => (i + 1) % roles.length), 3000)
+//     return () => clearInterval(id)
 //   }, [])
 
-//   // Text animation and section rotation
+//   // Spotlight follows cursor
 //   useEffect(() => {
-//     const text = textRef.current
-//     if (!text) return
-
-//     text.classList.add("animate-fade-in")
-
-//     const observer = new IntersectionObserver(
-//       ([entry]) => {
-//         if (entry.isIntersecting) {
-//           text.classList.add("animate-fade-in")
-//         }
-//       },
-//       { threshold: 0.1 },
-//     )
-
-//     observer.observe(text)
-
-//     // Rotate through sections
-//     const interval = setInterval(() => {
-//       setActiveSection((prev) => (prev + 1) % 3)
-//     }, 5000)
-
-//     return () => {
-//       observer.disconnect()
-//       clearInterval(interval)
+//     const el = sectionRef.current
+//     if (!el) return
+//     const onMove = (e: MouseEvent) => {
+//       const rect = el.getBoundingClientRect()
+//       const x = e.clientX - rect.left
+//       const y = e.clientY - rect.top
+//       setMouse({ x, y })
+//       if (spotlightRef.current) {
+//         spotlightRef.current.style.setProperty("--mx", `${x}px`)
+//         spotlightRef.current.style.setProperty("--my", `${y}px`)
+//       }
 //     }
+//     el.addEventListener("mousemove", onMove)
+//     return () => el.removeEventListener("mousemove", onMove)
 //   }, [])
 
-//   // Custom cursor text effect
-//   useEffect(() => {
-//     const texts = ["Developer", "Designer", "Creator", "Innovator", "Problem Solver"]
-//     let index = 0
-
-//     const interval = setInterval(() => {
-//       setCursorText(texts[index])
-//       index = (index + 1) % texts.length
-//     }, 2000)
-
-//     return () => clearInterval(interval)
-//   }, [])
-
-//   // Sections for rotating content
-//   const sections = [
-//     {
-//       title: "Full Stack Developer",
-//       description: "Building modern web applications with Next.js, TypeScript, and FastAPI",
-//       icon: <Code className="w-6 h-6 text-fuchsia-400" />,
-//     },
-//     {
-//       title: "AI Enthusiast",
-//       description: "Integrating cutting-edge AI technologies into practical applications",
-//       icon: <Sparkles className="w-6 h-6 text-violet-400" />,
-//     },
-//     {
-//       title: "Problem Solver",
-//       description: "Turning complex challenges into elegant, efficient solutions",
-//       icon: <Zap className="w-6 h-6 text-pink-400" />,
-//     },
-//   ]
+//   // Magnetic button effect
+//   const handleMagnetic = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+//     const target = e.currentTarget
+//     const rect = target.getBoundingClientRect()
+//     const relX = e.clientX - rect.left - rect.width / 2
+//     const relY = e.clientY - rect.top - rect.height / 2
+//     target.style.transform = `translate(${relX * 0.05}px, ${relY * 0.05}px)`
+//   }
+//   const resetMagnetic = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+//     e.currentTarget.style.transform = "translate(0px, 0px)"
+//   }
 
 //   return (
 //     <section
 //       id="hero"
-//       ref={containerRef}
-//       className="relative min-h-screen flex items-center justify-center overflow-hidden"
+//       ref={sectionRef}
+//       className="relative min-h-[92vh] md:min-h-[96vh] isolate overflow-hidden"
+//       aria-label="Hero"
 //     >
-//       {/* Interactive background */}
-//       <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
+//       {/* Grid + vignette background */}
+//       <div className="absolute inset-0 bg-[radial-gradient(1200px_600px_at_50%_0%,rgba(15,23,42,0.9),transparent_70%)] pointer-events-none" />
+//       <div className="absolute inset-0 opacity-[0.08] [background:repeating-linear-gradient(90deg,_#ffffff_0_1px,_transparent_1px_40px),repeating-linear-gradient(0deg,_#ffffff_0_1px,_transparent_1px_40px)]" />
+//       <div className="absolute inset-0 bg-gradient-to-b from-slate-950 via-slate-950/90 to-slate-950" />
 
-//       {/* Gradient overlays */}
-//       <div className="absolute inset-0 bg-gradient-to-b from-gray-950 via-gray-950/70 to-gray-950/90" />
-//       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(120,50,255,0.15),transparent_65%)]" />
+//       {/* Aurora accents */}
+//       <div className="absolute -top-28 -left-28 w-[36rem] h-[36rem] bg-emerald-500/15 blur-3xl rounded-full" />
+//       <div className="absolute -bottom-24 -right-24 w-[40rem] h-[40rem] bg-cyan-500/15 blur-3xl rounded-full" />
 
-//       {/* Animated shapes */}
+//       {/* Interactive spotlight */}
 //       <div
-//         className="absolute top-1/4 -left-20 w-64 h-64 bg-fuchsia-600/20 rounded-full blur-3xl animate-pulse"
-//         style={{ animationDuration: "8s" }}
-//       />
-//       <div
-//         className="absolute bottom-1/4 -right-20 w-80 h-80 bg-violet-600/20 rounded-full blur-3xl animate-pulse"
-//         style={{ animationDuration: "10s" }}
+//         ref={spotlightRef}
+//         className="absolute inset-0 pointer-events-none"
+//         style={{
+//           background:
+//             "radial-gradient(400px 300px at var(--mx) var(--my), rgba(16,185,129,0.10), transparent 70%)",
+//         }}
+//         aria-hidden="true"
 //       />
 
-//       {/* Custom cursor */}
-//       {isHovering && (
-//         <div
-//           className="fixed pointer-events-none z-50 flex items-center justify-center"
-//           style={{
-//             left: `${cursorPosition.x}px`,
-//             top: `${cursorPosition.y}px`,
-//             transform: "translate(-50%, -50%)",
-//           }}
-//         >
-//           <div className="text-xs font-medium text-white bg-fuchsia-500/80 px-2 py-1 rounded-full whitespace-nowrap">
-//             {cursorText}
-//           </div>
-//         </div>
-//       )}
-
-//       <div className="container mx-auto px-4 md:px-8 z-10">
-//         <div className="max-w-5xl mx-auto">
-//           {/* Animated intro text */}
-//           <div className="overflow-hidden mb-6">
-//             <p
-//               className="text-fuchsia-400 font-medium text-xl md:text-2xl opacity-0 animate-fade-in tracking-wide transform translate-y-full animate-slide-up"
-//               style={{ animationDelay: "0.3s" }}
+//       {/* Content */}
+//       <div className="container relative z-10 mx-auto px-4 md:px-8 pt-28 md:pt-36 pb-16">
+//         <div className="grid items-center gap-10 lg:grid-cols-2">
+//           {/* Left: Intro (unchanged) */}
+//           <div>
+//             <motion.div
+//               initial={{ y: 16, opacity: 0 }}
+//               animate={{ y: 0, opacity: 1 }}
+//               transition={{ duration: 0.6 }}
+//               className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-600/10 px-3 py-1 text-emerald-300"
 //             >
-//               Hello, I'm
-//             </p>
-//           </div>
+//               <Sparkles size={16} />
+//               <span className="text-xs font-medium">Available for internships</span>
+//             </motion.div>
 
-//           {/* Name with glitch effect */}
-//           <div className="overflow-hidden mb-8">
-//             <h1
-//               ref={textRef}
-//               className="text-5xl md:text-7xl font-bold opacity-0 relative glitch-text"
-//               data-text="Kunj Dave"
+//             <motion.h1
+//               initial={{ y: 18, opacity: 0 }}
+//               animate={{ y: 0, opacity: 1 }}
+//               transition={{ delay: 0.05, duration: 0.7 }}
+//               className="mt-4 text-4xl leading-tight font-extrabold md:text-6xl"
 //             >
 //               <span className="text-white">Kunj</span>{" "}
-//               <span className="text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-400 via-violet-500 to-pink-500">
+//               <span className="bg-gradient-to-r from-emerald-400 via-cyan-300 to-emerald-300 bg-clip-text text-transparent">
 //                 Dave
 //               </span>
-//             </h1>
+//             </motion.h1>
+
+//             {/* Rotating roles */}
+//             <div className="mt-3 h-9 md:h-10 relative">
+//               <AnimatePresence mode="wait">
+//                 <motion.div
+//                   key={roleIndex}
+//                   initial={{ y: 20, opacity: 0 }}
+//                   animate={{ y: 0, opacity: 1 }}
+//                   exit={{ y: -20, opacity: 0 }}
+//                   transition={{ duration: 0.45 }}
+//                   className="absolute"
+//                 >
+//                   <p className="text-xl md:text-2xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">
+//                     {roles[roleIndex]}
+//                   </p>
+//                 </motion.div>
+//               </AnimatePresence>
+//             </div>
+
+//             <motion.p
+//               initial={{ y: 12, opacity: 0 }}
+//               animate={{ y: 0, opacity: 1 }}
+//               transition={{ delay: 0.1, duration: 0.6 }}
+//               className="mt-6 max-w-xl text-base md:text-lg text-slate-300"
+//             >
+//               I build high-performance web experiences with Next.js, TypeScript, and modern tooling.
+//               I love turning complex ideas into elegant, secure products enhanced with AI.
+//             </motion.p>
+
+//             {/* CTAs */}
+//             <motion.div
+//               initial={{ y: 10, opacity: 0 }}
+//               animate={{ y: 0, opacity: 1 }}
+//               transition={{ delay: 0.15, duration: 0.5 }}
+//               className="mt-8 flex flex-col sm:flex-row items-center gap-4"
+//             >
+//               <a
+//                 href="#projects-section"
+//                 onMouseMove={handleMagnetic}
+//                 onMouseLeave={resetMagnetic}
+//                 className="relative inline-flex items-center gap-2 rounded-lg px-6 py-3 text-white"
+//               >
+//                 <span className="absolute inset-0 rounded-lg bg-gradient-to-r from-emerald-600 to-teal-600 transition-transform duration-300" />
+//                 <span className="relative z-10 font-medium">View Projects</span>
+//                 <ArrowRight className="relative z-10" size={18} />
+//               </a>
+//               <a
+//                 href="#contact"
+//                 className="group inline-flex items-center gap-2 rounded-lg border border-cyan-400/60 bg-slate-900/60 px-6 py-3 text-cyan-300 hover:bg-slate-900/80 transition-colors"
+//               >
+//                 Contact Me
+//                 <Mail size={18} className="transition-transform group-hover:translate-x-0.5" />
+//               </a>
+//             </motion.div>
+
+//             {/* Socials */}
+//             <motion.div
+//               initial={{ y: 10, opacity: 0 }}
+//               animate={{ y: 0, opacity: 1 }}
+//               transition={{ delay: 0.2, duration: 0.5 }}
+//               className="mt-8 flex items-center gap-3"
+//             >
+//               <a
+//                 href="https://github.com/kunj3740"
+//                 target="_blank"
+//                 rel="noopener noreferrer"
+//                 aria-label="GitHub"
+//                 className="rounded-md border border-slate-800 bg-slate-900/60 p-2 text-slate-300 hover:text-white hover:border-emerald-500/50 transition-colors"
+//               >
+//                 <Github size={18} />
+//               </a>
+//               <a
+//                 href="https://linkedin.com/in/kunj-dave"
+//                 target="_blank"
+//                 rel="noopener noreferrer"
+//                 aria-label="LinkedIn"
+//                 className="rounded-md border border-slate-800 bg-slate-900/60 p-2 text-slate-300 hover:text-white hover:border-emerald-500/50 transition-colors"
+//               >
+//                 <Linkedin size={18} />
+//               </a>
+//               <a
+//                 href="/resume.pdf"
+//                 aria-label="Download Resume"
+//                 className="rounded-md border border-slate-800 bg-slate-900/60 p-2 text-slate-300 hover:text-white hover:border-emerald-500/50 transition-colors"
+//               >
+//                 <Download size={18} />
+//               </a>
+//             </motion.div>
+
+//             {/* Stats */}
+//             <motion.div
+//               initial={{ y: 10, opacity: 0 }}
+//               animate={{ y: 0, opacity: 1 }}
+//               transition={{ delay: 0.25, duration: 0.5 }}
+//               className="mt-10 grid grid-cols-3 gap-3 max-w-lg"
+//             >
+//               <div className="rounded-lg border border-slate-800 bg-slate-900/50 p-4">
+//                 <p className="text-2xl font-bold text-white">20+</p>
+//                 <p className="text-xs text-slate-400">Projects</p>
+//               </div>
+//               <div className="rounded-lg border border-slate-800 bg-slate-900/50 p-4">
+//                 <p className="text-2xl font-bold text-white">3+</p>
+//                 <p className="text-xs text-slate-400">Years</p>
+//               </div>
+//               <div className="rounded-lg border border-slate-800 bg-slate-900/50 p-4">
+//                 <p className="text-2xl font-bold text-white">
+//                   4.9<span className="text-sm align-top">/5</span>
+//                 </p>
+//                 <p className="text-xs text-slate-400">Feedback</p>
+//               </div>
+//             </motion.div>
 //           </div>
 
-//           {/* Rotating titles */}
-//           <div className="h-24 md:h-20 mb-8 overflow-hidden relative">
-//             {sections.map((section, index) => (
-//               <div
-//                 key={index}
-//                 className={`absolute inset-0 transition-all duration-1000 flex items-center ${
-//                   activeSection === index ? "opacity-100 transform translate-y-0" : "opacity-0 transform translate-y-8"
-//                 }`}
-//               >
-//                 <div className="flex items-center gap-3 bg-gray-900/50 backdrop-blur-sm px-4 py-3 rounded-full border border-gray-800/50">
-//                   {section.icon}
-//                   <div>
-//                     <h2 className="text-2xl md:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-400 via-violet-500 to-pink-500">
-//                       {section.title}
-//                     </h2>
-//                     <p className="text-gray-300 text-sm md:text-base">{section.description}</p>
+//           {/* Right: Simplified Code Editor Portfolio */}
+//           <div className="relative">
+//             <motion.div
+//               initial={{ scale: 0.96, opacity: 0 }}
+//               animate={{ scale: 1, opacity: 1 }}
+//               transition={{ duration: 0.5, delay: 0.05 }}
+//               className="relative mx-auto w-[88%] max-w-[520px]"
+//             >
+//               <div className="relative rounded-2xl border border-slate-800/70 bg-slate-900/60 p-3 shadow-[0_0_40px_-12px_rgba(16,185,129,0.35)]">
+//                 {/* Editor frame */}
+//                 <div
+//                   className="w-full rounded-lg border border-slate-800/70 bg-slate-950/70 backdrop-blur-sm"
+//                   role="region"
+//                   aria-label="Portfolio code preview"
+//                 >
+//                   {/* Editor header */}
+//                   <div className="flex items-center justify-between border-b border-slate-800/70 px-3 py-2">
+//                     <div className="flex items-center gap-1.5">
+//                       <span className="h-2.5 w-2.5 rounded-full bg-red-500/80" aria-hidden="true" />
+//                       <span className="h-2.5 w-2.5 rounded-full bg-amber-400/80" aria-hidden="true" />
+//                       <span className="h-2.5 w-2.5 rounded-full bg-emerald-500/80" aria-hidden="true" />
+//                     </div>
+//                     <div className="flex items-center gap-2 text-xs text-slate-400">
+//                       <Code2 size={14} className="text-cyan-300" />
+//                       <span>portfolio.ts</span>
+//                     </div>
+//                     <div className="text-[10px] text-slate-500 px-2 py-0.5 rounded border border-slate-800/70">
+//                       TS
+//                     </div>
+//                   </div>
+
+//                   {/* Editor body */}
+//                   <div className="grid grid-cols-[auto_1fr] text-sm">
+//                     {/* Line numbers */}
+//                     <div className="select-none bg-slate-950/60 border-r border-slate-800/60 text-slate-600 text-right pr-3 py-3 leading-6">
+//                       {Array.from({ length: 18 }).map((_, i) => (
+//                         <div key={i} className="px-1">{i + 1}</div>
+//                       ))}
+//                     </div>
+//                     {/* Code */}
+//                     <pre className="relative overflow-auto p-3 leading-6 text-slate-200">
+//                       <code className="font-mono">
+// {`// Portfolio introduction
+// type Role = "Full‑Stack Developer" | "AI Integrator" | "System Designer" | "Problem Solver"
+
+// export const portfolio = {
+//   name: "Kunj Dave",
+//   roles: ["Full‑Stack Developer", "AI Integrator"] as Role[],
+//   intro: "I design and ship modern web apps with strong UX and AI enhancements.",
+//   location: "India",
+//   availableFor: "Internships",
+//   stats: { projects: 20, years: 3, rating: 4.9 },
+//   stack: ["Next.js", "TypeScript", "React", "AI Integration"]
+// }
+
+// // Tip: Explore projects ↓
+// export function contact() {
+//   return "Reach out via the Contact section."
+// }
+// `}
+//                       </code>
+//                       {/* Blinking caret */}
+//                       <motion.span
+//                         aria-hidden="true"
+//                         initial={{ opacity: 0.2 }}
+//                         animate={{ opacity: [0.2, 1, 0.2] }}
+//                         transition={{ repeat: Infinity, duration: 1.4 }}
+//                         className="absolute bottom-3 left-3 h-4 w-0.5 bg-cyan-400/90"
+//                       />
+//                     </pre>
 //                   </div>
 //                 </div>
+
+//                 {/* Tech tags below editor */}
+//                 <div className="mt-3 flex flex-wrap gap-2">
+//                   {[
+//                     "Next.js",
+//                     "TypeScript",
+//                     "React",
+//                     "AI Integration",
+//                   ].map((label) => (
+//                     <span
+//                       key={label}
+//                       className="inline-flex items-center rounded-md border border-slate-800/70 bg-slate-900/70 px-2.5 py-1 text-xs text-slate-200"
+//                     >
+//                       <span className="mr-2 h-2 w-2 rounded-full bg-gradient-to-r from-emerald-500 to-cyan-400" />
+//                       {label}
+//                     </span>
+//                   ))}
+//                 </div>
 //               </div>
-//             ))}
-//           </div>
-
-//           {/* Main description */}
-//           <div className="backdrop-blur-sm bg-gray-900/30 border border-gray-800/50 rounded-xl p-6 mb-12 transform hover:scale-[1.01] transition-all duration-300 hover:border-fuchsia-500/30">
-//             <p
-//               className="text-gray-300 max-w-3xl mx-auto text-lg opacity-0 animate-fade-in leading-relaxed"
-//               style={{ animationDelay: "0.9s" }}
-//             >
-//               Crafting efficient, scalable web applications using modern tools like Next.js and TypeScript, while
-//               integrating intelligent AI-driven features. A 3rd-year B.Tech IT student with a strong foundation in
-//               full-stack development, GenAI technologies, and a passion for solving real-world problems through code.
-//             </p>
-//           </div>
-
-//           {/* CTA buttons with advanced hover effects */}
-//           <div
-//             className="flex flex-col sm:flex-row items-center justify-center gap-6 opacity-0 animate-fade-in"
-//             style={{ animationDelay: "1.2s" }}
-//           >
-//             <a
-//               href="#projects"
-//               className="group relative px-8 py-3 font-medium text-white transition-colors duration-300 transform rounded-md"
-//             >
-//               <span className="absolute inset-0 w-full h-full transition-all duration-300 ease-out transform translate-x-0 -skew-x-12 bg-gradient-to-r from-fuchsia-600 to-violet-600 group-hover:skew-x-12"></span>
-//               <span className="absolute inset-0 w-full h-full transition-all delay-100 duration-300 ease-out transform skew-x-12 bg-gradient-to-r from-violet-600 to-fuchsia-600 group-hover:-skew-x-12"></span>
-//               <span className="absolute bottom-0 left-0 hidden w-10 h-20 transition-all duration-100 ease-out transform -translate-x-8 translate-y-10 bg-fuchsia-600 -rotate-12"></span>
-//               <span className="absolute bottom-0 right-0 hidden w-10 h-20 transition-all duration-100 ease-out transform translate-x-10 translate-y-8 bg-violet-600 -rotate-12"></span>
-//               <span className="relative">View Projects</span>
-//             </a>
-//             <a
-//               href="#contact"
-//               className="group relative px-8 py-3 font-medium text-white transition-colors duration-300 transform rounded-md"
-//             >
-//               <span className="absolute inset-0 w-full h-full transition duration-300 ease-out transform translate-x-0 rounded-md border-2 border-fuchsia-500 group-hover:translate-x-1 group-hover:translate-y-1"></span>
-//               <span className="absolute inset-0 w-full h-full transition duration-300 ease-out transform rounded-md bg-gray-900 border-2 border-violet-500 group-hover:translate-x-0 group-hover:translate-y-0"></span>
-//               <span className="relative text-fuchsia-400 group-hover:text-violet-400 transition-colors duration-300">
-//                 Contact Me
-//               </span>
-//             </a>
+//             </motion.div>
 //           </div>
 //         </div>
-//       </div>
 
-//       {/* Scroll indicator */}
-//       <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
-//         <a
-//           href="#about"
-//           className="text-gray-400 hover:text-fuchsia-400 transition-colors duration-300"
-//           aria-label="Scroll to About section"
-//         >
-//           <ChevronDown size={32} />
-//         </a>
+//         {/* Scroll indicator */}
+//         <div className="mt-12 flex items-center justify-center">
+//           <a
+//             href="#about"
+//             className="group inline-flex items-center gap-2 text-slate-400 hover:text-cyan-300 transition-colors"
+//             aria-label="Scroll to about"
+//           >
+//             <span className="h-8 w-5 rounded-full border border-slate-700/60 flex items-start justify-center p-1">
+//               <span className="h-2 w-1 rounded-full bg-cyan-400/80 animate-bounce" />
+//             </span>
+//             <span className="text-sm">Scroll to explore</span>
+//           </a>
+//         </div>
 //       </div>
 //     </section>
 //   )
 // }
 
-// export default Hero
-"use client"
+'use client'
 
 import { useEffect, useRef, useState } from "react"
-import { ChevronDown, Code, Sparkles, Zap } from "lucide-react"
+import { motion, AnimatePresence } from "framer-motion"
+import { ArrowRight, Sparkles, Github, Linkedin, Mail, Download, Code2 } from 'lucide-react'
 
-const Hero = () => {
-  const textRef = useRef<HTMLHeadingElement>(null)
-  const canvasRef = useRef<HTMLCanvasElement>(null)
-  const containerRef = useRef<HTMLDivElement>(null)
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
-  const [isHovering, setIsHovering] = useState(false)
-  const [cursorText, setCursorText] = useState("")
-  const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 })
-  const [activeSection, setActiveSection] = useState(0)
+type Vec2 = { x: number; y: number }
 
-  // Animated background with interactive elements
+export default function Hero() {
+  const sectionRef = useRef<HTMLElement>(null)
+  const spotlightRef = useRef<HTMLDivElement>(null)
+  const [roleIndex, setRoleIndex] = useState(0)
+  const [mouse, setMouse] = useState<Vec2>({ x: 0, y: 0 })
+
+  const roles = ["Full‑Stack Developer", "AI Integrator", "System Designer", "Problem Solver"]
+
+  // Rotate role every 3s
   useEffect(() => {
-    const canvas = canvasRef.current
-    if (!canvas) return
-
-    const ctx = canvas.getContext("2d")
-    if (!ctx) return
-
-    let animationFrameId: number
-    const particles: Particle[] = []
-    const particleCount = 100
-    const connectionDistance = 150
-    const mouseRadius = 120
-
-    class Particle {
-      x: number
-      y: number
-      size: number
-      baseSize: number
-      speedX: number
-      speedY: number
-      color: string
-      originalX: number
-      originalY: number
-      density: number
-
-      constructor() {
-        this.x = Math.random() * canvas.width
-        this.y = Math.random() * canvas.height
-        this.originalX = this.x
-        this.originalY = this.y
-        this.size = Math.random() * 3 + 1
-        this.baseSize = this.size
-        this.speedX = (Math.random() - 0.5) * 0.5
-        this.speedY = (Math.random() - 0.5) * 0.5
-        this.color = `hsla(${280 + Math.random() * 60}, 100%, 75%, ${Math.random() * 0.5 + 0.2})`
-        this.density = Math.random() * 30 + 1
-      }
-
-      update() {
-        // Normal movement
-        this.x += this.speedX
-        this.y += this.speedY
-
-        // Mouse interaction
-        const dx = mousePosition.x - this.x
-        const dy = mousePosition.y - this.y
-        const distance = Math.sqrt(dx * dx + dy * dy)
-
-        if (distance < mouseRadius && isHovering) {
-          const forceDirectionX = dx / distance
-          const forceDirectionY = dy / distance
-          const force = (mouseRadius - distance) / mouseRadius
-          const directionX = forceDirectionX * force * this.density * 0.6
-          const directionY = forceDirectionY * force * this.density * 0.6
-
-          this.x -= directionX
-          this.y -= directionY
-          this.size = this.baseSize + 2
-        } else {
-          if (this.size > this.baseSize) {
-            this.size -= 0.1
-          }
-
-          // Return to original position with slight randomness
-          if (Math.abs(this.x - this.originalX) > 50 || Math.abs(this.y - this.originalY) > 50) {
-            this.x += (this.originalX - this.x) * 0.02
-            this.y += (this.originalY - this.y) * 0.02
-          }
-        }
-
-        // Boundary check
-        if (this.x > canvas.width) this.x = 0
-        else if (this.x < 0) this.x = canvas.width
-        if (this.y > canvas.height) this.y = 0
-        else if (this.y < 0) this.y = canvas.height
-      }
-
-      draw() {
-        if (!ctx) return
-        ctx.beginPath()
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2)
-        ctx.fillStyle = this.color
-        ctx.fill()
-      }
-    }
-
-    const init = () => {
-      canvas.width = window.innerWidth
-      canvas.height = window.innerHeight
-
-      for (let i = 0; i < particleCount; i++) {
-        particles.push(new Particle())
-      }
-    }
-
-    const connectParticles = () => {
-      for (let i = 0; i < particles.length; i++) {
-        for (let j = i; j < particles.length; j++) {
-          const dx = particles[i].x - particles[j].x
-          const dy = particles[i].y - particles[j].y
-          const distance = Math.sqrt(dx * dx + dy * dy)
-
-          if (distance < connectionDistance) {
-            const opacity = 1 - distance / connectionDistance
-            ctx!.strokeStyle = `hsla(280, 100%, 75%, ${opacity * 0.2})`
-            ctx!.lineWidth = 1
-            ctx!.beginPath()
-            ctx!.moveTo(particles[i].x, particles[i].y)
-            ctx!.lineTo(particles[j].x, particles[j].y)
-            ctx!.stroke()
-          }
-        }
-      }
-    }
-
-    const animate = () => {
-      if (!ctx) return
-      ctx.clearRect(0, 0, canvas.width, canvas.height)
-
-      particles.forEach((particle) => {
-        particle.update()
-        particle.draw()
-      })
-
-      connectParticles()
-
-      animationFrameId = requestAnimationFrame(animate)
-    }
-
-    init()
-    animate()
-
-    const handleResize = () => {
-      canvas.width = window.innerWidth
-      canvas.height = window.innerHeight
-      init()
-    }
-
-    window.addEventListener("resize", handleResize)
-
-    return () => {
-      cancelAnimationFrame(animationFrameId)
-      window.removeEventListener("resize", handleResize)
-    }
-  }, [mousePosition, isHovering])
-
-  // Mouse tracking for particle interaction
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY })
-      setCursorPosition({ x: e.clientX, y: e.clientY })
-    }
-
-    const handleMouseEnter = () => setIsHovering(true)
-    const handleMouseLeave = () => setIsHovering(false)
-
-    const container = containerRef.current
-    if (container) {
-      container.addEventListener("mousemove", handleMouseMove)
-      container.addEventListener("mouseenter", handleMouseEnter)
-      container.addEventListener("mouseleave", handleMouseLeave)
-    }
-
-    return () => {
-      if (container) {
-        container.removeEventListener("mousemove", handleMouseMove)
-        container.removeEventListener("mouseenter", handleMouseEnter)
-        container.removeEventListener("mouseleave", handleMouseLeave)
-      }
-    }
+    const id = setInterval(() => setRoleIndex((i) => (i + 1) % roles.length), 3000)
+    return () => clearInterval(id)
   }, [])
 
-  // Text animation and section rotation
+  // Spotlight follows cursor
   useEffect(() => {
-    const text = textRef.current
-    if (!text) return
-
-    text.classList.add("animate-fade-in")
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          text.classList.add("animate-fade-in")
-        }
-      },
-      { threshold: 0.1 },
-    )
-
-    observer.observe(text)
-
-    // Rotate through sections
-    const interval = setInterval(() => {
-      setActiveSection((prev) => (prev + 1) % 3)
-    }, 5000)
-
-    return () => {
-      observer.disconnect()
-      clearInterval(interval)
+    const el = sectionRef.current
+    if (!el) return
+    const onMove = (e: MouseEvent) => {
+      const rect = el.getBoundingClientRect()
+      const x = e.clientX - rect.left
+      const y = e.clientY - rect.top
+      setMouse({ x, y })
+      if (spotlightRef.current) {
+        spotlightRef.current.style.setProperty("--mx", `${x}px`)
+        spotlightRef.current.style.setProperty("--my", `${y}px`)
+      }
     }
+    el.addEventListener("mousemove", onMove)
+    return () => el.removeEventListener("mousemove", onMove)
   }, [])
 
-  // Custom cursor text effect
-  useEffect(() => {
-    const texts = ["Developer", "Designer", "Creator", "Innovator", "Problem Solver"]
-    let index = 0
-
-    const interval = setInterval(() => {
-      setCursorText(texts[index])
-      index = (index + 1) % texts.length
-    }, 2000)
-
-    return () => clearInterval(interval)
-  }, [])
-
-  // Sections for rotating content
-  const sections = [
-    {
-      title: "Full Stack Developer",
-      description: "Building modern web applications with Next.js, TypeScript, and FastAPI",
-      icon: <Code className="w-6 h-6 text-fuchsia-400" />,
-    },
-    {
-      title: "AI Enthusiast",
-      description: "Integrating cutting-edge AI technologies into practical applications",
-      icon: <Sparkles className="w-6 h-6 text-violet-400" />,
-    },
-    {
-      title: "Problem Solver",
-      description: "Turning complex challenges into elegant, efficient solutions",
-      icon: <Zap className="w-6 h-6 text-pink-400" />,
-    },
-  ]
+  // Magnetic button effect
+  const handleMagnetic = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    const target = e.currentTarget
+    const rect = target.getBoundingClientRect()
+    const relX = e.clientX - rect.left - rect.width / 2
+    const relY = e.clientY - rect.top - rect.height / 2
+    target.style.transform = `translate(${relX * 0.05}px, ${relY * 0.05}px)`
+  }
+  const resetMagnetic = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    e.currentTarget.style.transform = "translate(0px, 0px)"
+  }
 
   return (
     <section
       id="hero"
-      ref={containerRef}
-      className="relative min-h-screen flex items-center justify-center overflow-hidden"
+      ref={sectionRef}
+      className="relative min-h-[92vh] md:min-h-[96vh] isolate overflow-hidden"
+      aria-label="Hero"
     >
-      {/* Interactive background */}
-      <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
+      {/* Grid + vignette background */}
+      <div className="absolute inset-0 bg-[radial-gradient(1200px_600px_at_50%_0%,rgba(15,23,42,0.9),transparent_70%)] pointer-events-none" />
+      <div className="absolute inset-0 opacity-[0.08] [background:repeating-linear-gradient(90deg,_#ffffff_0_1px,_transparent_1px_40px),repeating-linear-gradient(0deg,_#ffffff_0_1px,_transparent_1px_40px)]" />
+      <div className="absolute inset-0 bg-gradient-to-b from-slate-950 via-slate-950/90 to-slate-950" />
 
-      {/* Gradient overlays */}
-      <div className="absolute inset-0 bg-gradient-to-b from-gray-950 via-gray-950/70 to-gray-950/90" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(120,50,255,0.15),transparent_65%)]" />
+      {/* Aurora accents */}
+      <div className="absolute -top-28 -left-28 w-[36rem] h-[36rem] bg-emerald-500/15 blur-3xl rounded-full" />
+      <div className="absolute -bottom-24 -right-24 w-[40rem] h-[40rem] bg-cyan-500/15 blur-3xl rounded-full" />
 
-      {/* Animated shapes */}
+      {/* Interactive spotlight */}
       <div
-        className="absolute top-1/4 -left-20 w-64 h-64 bg-fuchsia-600/20 rounded-full blur-3xl animate-pulse"
-        style={{ animationDuration: "8s" }}
-      />
-      <div
-        className="absolute bottom-1/4 -right-20 w-80 h-80 bg-violet-600/20 rounded-full blur-3xl animate-pulse"
-        style={{ animationDuration: "10s" }}
+        ref={spotlightRef}
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(400px 300px at var(--mx) var(--my), rgba(16,185,129,0.10), transparent 70%)",
+        }}
+        aria-hidden="true"
       />
 
-      {/* Custom cursor */}
-      {isHovering && (
-        <div
-          className="fixed pointer-events-none z-50 flex items-center justify-center"
-          style={{
-            left: `${cursorPosition.x}px`,
-            top: `${cursorPosition.y}px`,
-            transform: "translate(-50%, -50%)",
-          }}
-        >
-          <div className="text-xs font-medium text-white bg-fuchsia-500/80 px-2 py-1 rounded-full whitespace-nowrap">
-            {cursorText}
-          </div>
-        </div>
-      )}
-
-      <div className="container mx-auto px-4 md:px-8 z-10">
-        <div className="max-w-5xl mx-auto">
-          {/* Animated intro text */}
-          <div className="overflow-hidden mb-6">
-            <p
-              className="text-fuchsia-400 font-medium text-xl md:text-2xl opacity-0 animate-fade-in tracking-wide transform translate-y-full animate-slide-up"
-              style={{ animationDelay: "0.3s" }}
+      {/* Content */}
+      <div className="container relative z-10 mx-auto px-4 md:px-8 pt-28 md:pt-36 pb-16">
+        <div className="grid items-center gap-10 lg:grid-cols-2">
+          {/* Left: Intro (unchanged) */}
+          <div>
+            <motion.div
+              initial={{ y: 16, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.6 }}
+              className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-600/10 px-3 py-1 text-emerald-300"
             >
-              Hello, I'm
-            </p>
-          </div>
+              <Sparkles size={16} />
+              <span className="text-xs font-medium">Available for Work</span>
+            </motion.div>
 
-          {/* Name with glitch effect */}
-          <div className="overflow-hidden mb-8">
-            <h1
-              ref={textRef}
-              className="text-5xl md:text-7xl font-bold opacity-0 relative glitch-text"
-              data-text="Kunj Dave"
+            <motion.h1
+              initial={{ y: 18, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.05, duration: 0.7 }}
+              className="mt-4 text-4xl leading-tight font-extrabold md:text-6xl"
             >
               <span className="text-white">Kunj</span>{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-400 via-violet-500 to-pink-500">
+              <span className="bg-gradient-to-r from-emerald-400 via-cyan-300 to-emerald-300 bg-clip-text text-transparent">
                 Dave
               </span>
-            </h1>
+            </motion.h1>
+
+            {/* Rotating roles */}
+            <div className="mt-3 h-9 md:h-10 relative">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={roleIndex}
+                  initial={{ y: 20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  exit={{ y: -20, opacity: 0 }}
+                  transition={{ duration: 0.45 }}
+                  className="absolute"
+                >
+                  <p className="text-xl md:text-2xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">
+                    {roles[roleIndex]}
+                  </p>
+                </motion.div>
+              </AnimatePresence>
+            </div>
+
+            <motion.p
+              initial={{ y: 12, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.1, duration: 0.6 }}
+              className="mt-6 max-w-xl text-base md:text-lg text-slate-300"
+            >
+              I build high-performance web experiences with Next.js, TypeScript, and modern tooling.
+              I love turning complex ideas into elegant, secure products enhanced with AI.
+            </motion.p>
+
+            {/* CTAs */}
+            <motion.div
+              initial={{ y: 10, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.15, duration: 0.5 }}
+              className="mt-8 flex flex-col sm:flex-row items-center gap-4"
+            >
+              <a
+                href="#projects-section"
+                onMouseMove={handleMagnetic}
+                onMouseLeave={resetMagnetic}
+                className="relative inline-flex items-center gap-2 rounded-lg px-6 py-3 text-white"
+              >
+                <span className="absolute inset-0 rounded-lg bg-gradient-to-r from-emerald-600 to-teal-600 transition-transform duration-300" />
+                <span className="relative z-10 font-medium">View Projects</span>
+                <ArrowRight className="relative z-10" size={18} />
+              </a>
+              <a
+                href="#contact"
+                className="group inline-flex items-center gap-2 rounded-lg border border-cyan-400/60 bg-slate-900/60 px-6 py-3 text-cyan-300 hover:bg-slate-900/80 transition-colors"
+              >
+                Contact Me
+                <Mail size={18} className="transition-transform group-hover:translate-x-0.5" />
+              </a>
+            </motion.div>
+
+            {/* Socials */}
+            <motion.div
+              initial={{ y: 10, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.2, duration: 0.5 }}
+              className="mt-8 flex items-center gap-3"
+            >
+              <a
+                href="https://github.com/kunj3740"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="GitHub"
+                className="rounded-md border border-slate-800 bg-slate-900/60 p-2 text-slate-300 hover:text-white hover:border-emerald-500/50 transition-colors"
+              >
+                <Github size={18} />
+              </a>
+              <a
+                href="https://linkedin.com/in/kunj-dave"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="LinkedIn"
+                className="rounded-md border border-slate-800 bg-slate-900/60 p-2 text-slate-300 hover:text-white hover:border-emerald-500/50 transition-colors"
+              >
+                <Linkedin size={18} />
+              </a>
+              <a
+                href="/resume.pdf"
+                aria-label="Download Resume"
+                className="rounded-md border border-slate-800 bg-slate-900/60 p-2 text-slate-300 hover:text-white hover:border-emerald-500/50 transition-colors"
+              >
+                <Download size={18} />
+              </a>
+            </motion.div>
+
+            {/* Stats */}
+            <motion.div
+              initial={{ y: 10, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.25, duration: 0.5 }}
+              className="mt-10 grid grid-cols-3 gap-3 max-w-lg"
+            >
+              <div className="rounded-lg border border-slate-800 bg-slate-900/50 p-4">
+                <p className="text-2xl font-bold text-white">20+</p>
+                <p className="text-xs text-slate-400">Projects</p>
+              </div>
+              <div className="rounded-lg border border-slate-800 bg-slate-900/50 p-4">
+                <p className="text-2xl font-bold text-white">3+</p>
+                <p className="text-xs text-slate-400">Years</p>
+              </div>
+              <div className="rounded-lg border border-slate-800 bg-slate-900/50 p-4">
+                <p className="text-2xl font-bold text-white">
+                  4.9<span className="text-sm align-top">/5</span>
+                </p>
+                <p className="text-xs text-slate-400">Feedback</p>
+              </div>
+            </motion.div>
           </div>
 
-          {/* Rotating titles */}
-          <div className="h-24 md:h-20 mb-8 overflow-hidden relative">
-            {sections.map((section, index) => (
-              <div
-                key={index}
-                className={`absolute inset-0 transition-all duration-1000 flex items-center ${
-                  activeSection === index ? "opacity-100 transform translate-y-0" : "opacity-0 transform translate-y-8"
-                }`}
-              >
-                <div className="flex items-center gap-3 bg-gray-900/50 backdrop-blur-sm px-4 py-3 rounded-full border border-gray-800/50">
-                  {section.icon}
-                  <div>
-                    <h2 className="text-2xl md:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-400 via-violet-500 to-pink-500">
-                      {section.title}
-                    </h2>
-                    <p className="text-gray-300 text-sm md:text-base">{section.description}</p>
+          {/* Right: Simplified Code Editor Portfolio */}
+          <div className="relative hidden md:block">
+            <motion.div
+              initial={{ scale: 0.96, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.05 }}
+              className="relative mx-auto w-[88%] max-w-[520px]"
+              style={{ maxHeight: "min(560px, calc(100vh - 16rem))" }}
+            >
+              <div className="relative rounded-2xl border border-slate-800/70 bg-slate-900/60 p-3 shadow-[0_0_40px_-12px_rgba(16,185,129,0.35)]">
+                {/* Editor frame */}
+                <div
+                  className="w-full rounded-lg border border-slate-800/70 bg-slate-950/70 backdrop-blur-sm flex flex-col max-h-full"
+                  role="region"
+                  aria-label="Portfolio code preview"
+                >
+                  {/* Editor header */}
+                  <div className="flex items-center justify-between border-b border-slate-800/70 px-3 py-2">
+                    <div className="flex items-center gap-1.5">
+                      <span className="h-2.5 w-2.5 rounded-full bg-red-500/80" aria-hidden="true" />
+                      <span className="h-2.5 w-2.5 rounded-full bg-amber-400/80" aria-hidden="true" />
+                      <span className="h-2.5 w-2.5 rounded-full bg-emerald-500/80" aria-hidden="true" />
+                    </div>
+                    <div className="flex items-center gap-2 text-xs text-slate-400">
+                      <Code2 size={14} className="text-cyan-300" />
+                      <span>portfolio.ts</span>
+                    </div>
+                    <div className="text-[10px] text-slate-500 px-2 py-0.5 rounded border border-slate-800/70">
+                      TS
+                    </div>
+                  </div>
+
+                  {/* Editor body */}
+                  <div className="grid grid-cols-[auto_1fr] text-sm flex-1 min-h-0">
+                    {/* Line numbers */}
+                    <div className="select-none bg-slate-950/60 border-r border-slate-800/60 text-slate-600 text-right pr-3 py-3 leading-6 overflow-hidden">
+                      {Array.from({ length: 14 }).map((_, i) => (
+                        <div key={i} className="px-1">{i + 1}</div>
+                      ))}
+                    </div>
+                    {/* Code */}
+                    <pre className="relative overflow-hidden p-3 leading-6 text-slate-200 whitespace-pre-wrap break-words">
+                      <code className="font-mono">
+{`// Portfolio introduction
+type Role = "Full‑Stack Developer" | "AI Integrator" | "System Designer" | "Problem Solver"
+
+export const portfolio = {
+  name: "Kunj Dave",
+  roles: ["Full‑Stack Developer", "AI Integrator"] as Role[],
+  intro: "I design and ship modern web apps with strong UX and AI enhancements.",
+  location: "India",
+  availableFor: "Internships / Full Time",
+  Experience: "3 Months"
+  stack: ["Next.js", "TypeScript", "React", "AI Integration"]
+}
+`}
+                      </code>
+                      {/* Blinking caret */}
+                      <motion.span
+                        aria-hidden="true"
+                        initial={{ opacity: 0.2 }}
+                        animate={{ opacity: [0.2, 1, 0.2] }}
+                        transition={{ repeat: Infinity, duration: 1.4 }}
+                        className="absolute bottom-3 left-3 h-4 w-0.5 bg-cyan-400/90"
+                      />
+                    </pre>
                   </div>
                 </div>
+
+                {/* Tech tags below editor */}
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {[
+                    "Next.js",
+                    "TypeScript",
+                    "React",
+                    "AI Integration",
+                  ].map((label) => (
+                    <span
+                      key={label}
+                      className="inline-flex items-center rounded-md border border-slate-800/70 bg-slate-900/70 px-2.5 py-1 text-xs text-slate-200"
+                    >
+                      <span className="mr-2 h-2 w-2 rounded-full bg-gradient-to-r from-emerald-500 to-cyan-400" />
+                      {label}
+                    </span>
+                  ))}
+                </div>
               </div>
-            ))}
-          </div>
-
-          {/* Main description */}
-          <div className="backdrop-blur-sm bg-gray-900/30 border border-gray-800/50 rounded-xl p-6 mb-12 transform hover:scale-[1.01] transition-all duration-300 hover:border-fuchsia-500/30">
-            <p
-              className="text-gray-300 max-w-3xl mx-auto text-lg opacity-0 animate-fade-in leading-relaxed"
-              style={{ animationDelay: "0.9s" }}
-            >
-              Crafting efficient, scalable web applications using modern tools like Next.js and TypeScript, while
-              integrating intelligent AI-driven features. A 3rd-year B.Tech IT student with a strong foundation in
-              full-stack development, GenAI technologies, and a passion for solving real-world problems through code.
-            </p>
-          </div>
-
-          {/* CTA buttons with advanced hover effects */}
-          <div
-            className="flex flex-col sm:flex-row items-center justify-center gap-6 opacity-0 animate-fade-in"
-            style={{ animationDelay: "1.2s" }}
-          >
-            <a
-              href="#projects"
-              className="group relative px-8 py-3 font-medium text-white transition-colors duration-300 transform rounded-md"
-            >
-              <span className="absolute inset-0 w-full h-full transition-all duration-300 ease-out transform translate-x-0 -skew-x-12 bg-gradient-to-r from-fuchsia-600 to-violet-600 group-hover:skew-x-12"></span>
-              <span className="absolute inset-0 w-full h-full transition-all delay-100 duration-300 ease-out transform skew-x-12 bg-gradient-to-r from-violet-600 to-fuchsia-600 group-hover:-skew-x-12"></span>
-              <span className="absolute bottom-0 left-0 hidden w-10 h-20 transition-all duration-100 ease-out transform -translate-x-8 translate-y-10 bg-fuchsia-600 -rotate-12"></span>
-              <span className="absolute bottom-0 right-0 hidden w-10 h-20 transition-all duration-100 ease-out transform translate-x-10 translate-y-8 bg-violet-600 -rotate-12"></span>
-              <span className="relative">View Projects</span>
-            </a>
-            <a
-              href="#contact"
-              className="group relative px-8 py-3 font-medium text-white transition-colors duration-300 transform rounded-md"
-            >
-              <span className="absolute inset-0 w-full h-full transition duration-300 ease-out transform translate-x-0 rounded-md border-2 border-fuchsia-500 group-hover:translate-x-1 group-hover:translate-y-1"></span>
-              <span className="absolute inset-0 w-full h-full transition duration-300 ease-out transform rounded-md bg-gray-900 border-2 border-violet-500 group-hover:translate-x-0 group-hover:translate-y-0"></span>
-              <span className="relative text-fuchsia-400 group-hover:text-violet-400 transition-colors duration-300">
-                Contact Me
-              </span>
-            </a>
+            </motion.div>
           </div>
         </div>
-      </div>
 
-      {/* Scroll indicator */}
-      <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
-        <a
-          href="#about"
-          className="text-gray-400 hover:text-fuchsia-400 transition-colors duration-300"
-          aria-label="Scroll to About section"
-        >
-          <ChevronDown size={32} />
-        </a>
+        {/* Scroll indicator */}
+        <div className="mt-12 flex items-center justify-center">
+          <a
+            href="#about"
+            className="group inline-flex items-center gap-2 text-slate-400 hover:text-cyan-300 transition-colors"
+            aria-label="Scroll to about"
+          >
+            <span className="h-8 w-5 rounded-full border border-slate-700/60 flex items-start justify-center p-1">
+              <span className="h-2 w-1 rounded-full bg-cyan-400/80 animate-bounce" />
+            </span>
+            <span className="text-sm">Scroll to explore</span>
+          </a>
+        </div>
       </div>
     </section>
   )
 }
-
-export default Hero
