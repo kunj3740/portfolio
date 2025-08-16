@@ -9,6 +9,7 @@ import Achievements from './components/Achievements';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import BackgroundAnimation from './components/BackgroundAnimation';
+import 'normalize.css';
 
 function App() {
   return (
