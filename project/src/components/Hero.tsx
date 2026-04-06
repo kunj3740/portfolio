@@ -373,7 +373,7 @@ export default function Hero() {
     <section
       id="hero"
       ref={sectionRef}
-      className="relative  min-h-[92vh] md:min-h-[96vh] isolate overflow-hidden"
+      className="relative   min-h-[92vh] md:min-h-[96vh] isolate overflow-hidden"
       aria-label="Hero"
     >
       {/* Background Grid */}
@@ -386,7 +386,7 @@ export default function Hero() {
           className="absolute inset-0"
           style={{
             backgroundImage: `
-              linear-gradient(to right, rgba(100,110,140,0.09) 1px, transparent 1px),
+              linear-gradient(to right, rgba(54, 65, 97, 0.09) 1px, transparent 1px),
               linear-gradient(to bottom, rgba(100,110,140,0.09) 1px, transparent 1px)
             `,
             backgroundSize: "48px 48px",
@@ -420,7 +420,7 @@ export default function Hero() {
       </div>
 
       {/* Content */}
-      <div className="container relative z-10 mx-auto px-4 md:px-8 pt-36 md:pt-40 pb-16">
+      <div className="container relative z-10 mx-auto px-4 md:px-8 pt-[300px] md:pt-48 pb-16">
         <div className="grid items-center gap-10 lg:grid-cols-2">
           {/* Left: Intro */}
           <div>

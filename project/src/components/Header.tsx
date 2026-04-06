@@ -67,7 +67,7 @@ export default function Header() {
     <header
       role="banner"
       className={`fixed inset-x-0 top-0 z-50 transition-all ${
-        isScrolled ? "py-2" : "py-4"
+        isScrolled ? "py-1" : "py-2"
       }`}
     >
       {/* Scroll progress bar */}
@@ -82,14 +82,12 @@ export default function Header() {
         }}
       />
       <div
-        className={`mx-4 md:mx-8 rounded-full bg-neu transition-all ${
-          isScrolled ? "shadow-neu" : "shadow-neu"
-        }`}
+        className={`mx-4 md:mx-auto max-w-5xl rounded-full bg-neu transition-all shadow-neu`}
       >
-        <div className="container mx-auto px-4 md:px-6 h-16 flex items-center justify-between">
+        <div className="container mx-auto px-4 md:px-6 h-12 md:h-14 flex items-center justify-between">
           <a
             href="#hero"
-            className="text-lg md:text-xl font-extrabold tracking-tight text-gray-800"
+            className="text-lg md:text-xl font-extrabold tracking-tight text-gray-800 hidden md:block"
             aria-label="Go to home"
           >
             Kunj Dave
@@ -137,7 +135,7 @@ export default function Header() {
         {isMenuOpen && (
           <nav
             id="mobile-nav"
-            className="md:hidden rounded-b-3xl bg-neu shadow-neu-pressed mx-2 mb-2 p-4 mt-2"
+            className="md:hidden rounded-b-3xl bg-neu shadow-neu-pressed mx-2 mb-2 p-3 mt-1"
             aria-label="Mobile navigation"
           >
             <ul className="flex flex-col gap-2">
