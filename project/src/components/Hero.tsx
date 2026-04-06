@@ -420,7 +420,7 @@ export default function Hero() {
       </div>
 
       {/* Content */}
-      <div className="container relative z-10 mx-auto px-4 md:px-8 pt-28 md:pt-36 pb-16">
+      <div className="container relative z-10 mx-auto px-4 md:px-8 pt-36 md:pt-40 pb-16">
         <div className="grid items-center gap-10 lg:grid-cols-2">
           {/* Left: Intro */}
           <div>
