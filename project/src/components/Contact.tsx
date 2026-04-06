@@ -10,6 +10,7 @@ interface ContactInfo {
   label: string
   value: string
   link?: string
+  color?: string
 }
 
 const Contact: React.FC = () => {
@@ -23,11 +24,11 @@ const Contact: React.FC = () => {
   const [submitSuccess, setSubmitSuccess] = useState(false)
 
   const contactInfo: ContactInfo[] = [
-    { icon: <Phone className="w-5 h-5" />, label: "Phone", value: "+91-8320947770", link: "tel:+918320947770" },
-    { icon: <Mail className="w-5 h-5" />, label: "Email", value: "kunjdave694@gmail.com", link: "mailto:kunjdave694@gmail.com" },
-    { icon: <Linkedin className="w-5 h-5" />, label: "LinkedIn", value: "linkedin.com/in/kunj-dave", link: "https://linkedin.com/in/kunj-dave" },
-    { icon: <Github className="w-5 h-5" />, label: "GitHub", value: "github.com/kunjdave", link: "https://github.com/kunj3740" },
-    { icon: <Code className="w-5 h-5" />, label: "LeetCode", value: "leetcode.com/kunjdave", link: "https://leetcode.com/kunjdave" },
+    { icon: <Phone className="w-5 h-5" />, label: "Phone", value: "+91-8320947770", link: "tel:+918320947770", color: "text-emerald-500" },
+    { icon: <Mail className="w-5 h-5" />, label: "Email", value: "kunjdave694@gmail.com", link: "mailto:kunjdave694@gmail.com", color: "text-sky-500" },
+    { icon: <Linkedin className="w-5 h-5" />, label: "LinkedIn", value: "linkedin.com/in/kunj-dave", link: "https://linkedin.com/in/kunj-dave", color: "text-blue-500" },
+    { icon: <Github className="w-5 h-5" />, label: "GitHub", value: "github.com/kunjdave", link: "https://github.com/kunj3740", color: "text-gray-700" },
+    { icon: <Code className="w-5 h-5" />, label: "LeetCode", value: "leetcode.com/kunjdave", link: "https://leetcode.com/kunjdave", color: "text-amber-500" },
   ]
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -69,14 +70,9 @@ const Contact: React.FC = () => {
   return (
     <section
       id="contact"
-      className="relative py-24 overflow-hidden bg-gradient-to-b from-slate-950 to-slate-900"
+      className="relative py-24 overflow-hidden text-gray-700"
       aria-label="Contact"
     >
-      {/* Background accents */}
-      <div className="absolute inset-0 bg-[radial-gradient(50%_40%_at_50%_0%,rgba(16,185,129,0.10),transparent)]" />
-      <div className="absolute -top-40 -right-40 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl" />
-      <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-emerald-500/10 rounded-full blur-3xl" />
-
       <div className="container relative z-10 mx-auto px-4 md:px-8">
         <div className="text-center mb-14">
           <motion.h2
@@ -84,23 +80,23 @@ const Contact: React.FC = () => {
             whileInView={{ y: 0, opacity: 1 }}
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.5 }}
-            className="text-3xl md:text-4xl font-bold mb-2"
+            className="text-3xl md:text-4xl font-extrabold mb-2 text-gray-800 tracking-tight"
           >
-            Get In <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">Touch</span>
+            Get In <span className="text-indigo-500">Touch</span>
           </motion.h2>
           <motion.div
             initial={{ scaleX: 0 }}
             whileInView={{ scaleX: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="w-24 h-1.5 bg-gradient-to-r from-emerald-400 to-cyan-400 mx-auto rounded-full origin-left"
+            className="w-24 h-1.5 shadow-neu-pressed bg-indigo-500/30 mx-auto rounded-full mt-4"
           />
           <motion.p
             initial={{ y: 12, opacity: 0 }}
             whileInView={{ y: 0, opacity: 1 }}
             viewport={{ once: true, amount: 0.2 }}
             transition={{ delay: 0.1, duration: 0.5 }}
-            className="text-slate-300 max-w-2xl mx-auto mt-6"
+            className="text-gray-600 font-medium max-w-2xl mx-auto mt-6"
           >
             I’m currently exploring new opportunities. Whether you have a question or just want to say hi, I’ll get back
             to you as soon as possible!
@@ -114,13 +110,13 @@ const Contact: React.FC = () => {
             whileInView={{ y: 0, opacity: 1 }}
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.6 }}
-            className="bg-slate-900/70 rounded-xl p-8 shadow-xl border border-slate-800/60 backdrop-blur"
+            className="bg-neu shadow-neu-pressed rounded-[2.5rem] p-10"
           >
-            <h3 className="text-2xl font-bold text-white mb-6">Send Me a Message</h3>
+            <h3 className="text-2xl font-black text-gray-800 tracking-tight mb-8">Send Me a Message</h3>
 
             {submitSuccess && (
               <div
-                className="bg-emerald-500/15 border border-emerald-500 text-emerald-400 rounded-lg p-4 mb-6"
+                className="shadow-neu-pressed bg-neu text-indigo-500 rounded-xl p-4 mb-6 font-bold"
                 role="status"
                 aria-live="polite"
               >
@@ -128,10 +124,10 @@ const Contact: React.FC = () => {
               </div>
             )}
 
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div>
-                  <label htmlFor="name" className="block text-slate-300 mb-2">
+                  <label htmlFor="name" className="block text-gray-600 font-bold mb-2">
                     Name
                   </label>
                   <input
@@ -141,13 +137,13 @@ const Contact: React.FC = () => {
                     required
                     value={formData.name}
                     onChange={handleChange}
-                    className="w-full bg-slate-800 text-white border border-slate-700 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                    className="w-full bg-neu shadow-neu-pressed border-none text-gray-700 rounded-[1.25rem] px-5 py-4 focus:outline-none focus:ring-2 focus:ring-indigo-400 placeholder:text-gray-600 font-medium transition-all"
                     placeholder="Your Name"
                     autoComplete="name"
                   />
                 </div>
                 <div>
-                  <label htmlFor="email" className="block text-slate-300 mb-2">
+                  <label htmlFor="email" className="block text-gray-600 font-bold mb-2">
                     Email
                   </label>
                   <input
@@ -157,7 +153,7 @@ const Contact: React.FC = () => {
                     required
                     value={formData.email}
                     onChange={handleChange}
-                    className="w-full bg-slate-800 text-white border border-slate-700 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                    className="w-full bg-neu shadow-neu-pressed border-none text-gray-700 rounded-[1.25rem] px-5 py-4 focus:outline-none focus:ring-2 focus:ring-indigo-400 placeholder:text-gray-600 font-medium transition-all"
                     placeholder="your@email.com"
                     autoComplete="email"
                   />
@@ -165,7 +161,7 @@ const Contact: React.FC = () => {
               </div>
 
               <div>
-                <label htmlFor="subject" className="block text-slate-300 mb-2">
+                <label htmlFor="subject" className="block text-gray-600 font-bold mb-2">
                   Subject
                 </label>
                 <input
@@ -175,13 +171,13 @@ const Contact: React.FC = () => {
                   required
                   value={formData.subject}
                   onChange={handleChange}
-                  className="w-full bg-slate-800 text-white border border-slate-700 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  className="w-full bg-neu shadow-neu-pressed border-none text-gray-700 rounded-[1.25rem] px-5 py-4 focus:outline-none focus:ring-2 focus:ring-indigo-400 placeholder:text-gray-600 font-medium transition-all"
                   placeholder="Subject"
                 />
               </div>
 
               <div>
-                <label htmlFor="message" className="block text-slate-300 mb-2">
+                <label htmlFor="message" className="block text-gray-600 font-bold mb-2">
                   Message
                 </label>
                 <textarea
@@ -191,7 +187,7 @@ const Contact: React.FC = () => {
                   required
                   value={formData.message}
                   onChange={handleChange}
-                  className="w-full bg-slate-800 text-white border border-slate-700 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-500 resize-none"
+                  className="w-full bg-neu shadow-neu-pressed border-none text-gray-700 rounded-[1.25rem] px-5 py-4 focus:outline-none focus:ring-2 focus:ring-indigo-400 placeholder:text-gray-600 font-medium transition-all resize-none"
                   placeholder="Your message"
                 />
               </div>
@@ -199,7 +195,7 @@ const Contact: React.FC = () => {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="inline-flex items-center gap-2 bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-medium py-3 px-8 rounded-lg transition-all duration-300 hover:scale-[1.02] hover:shadow-lg disabled:opacity-70 disabled:cursor-not-allowed"
+                className="w-full sm:w-auto inline-flex justify-center items-center gap-2 bg-neu shadow-neu text-indigo-500 font-black py-4 px-10 rounded-full transition-all duration-300 hover:text-indigo-500 active:shadow-neu-pressed disabled:opacity-70 disabled:cursor-not-allowed mt-2"
               >
                 {isSubmitting ? "Sending..." : "Send Message"}
               </button>
@@ -212,23 +208,23 @@ const Contact: React.FC = () => {
             whileInView={{ y: 0, opacity: 1 }}
             viewport={{ once: true, amount: 0.2 }}
             transition={{ delay: 0.05, duration: 0.6 }}
-            className="flex flex-col justify-between"
+            className="flex flex-col justify-between h-full"
           >
-            <div>
-              <h3 className="text-2xl font-bold text-white mb-6">Contact Information</h3>
-              <div className="space-y-5">
+            <div className="bg-neu shadow-neu rounded-[2.5rem] p-10 mt-8 lg:mt-0">
+              <h3 className="text-2xl font-black text-gray-800 tracking-tight mb-8">Contact Information</h3>
+              <div className="space-y-6">
                 {contactInfo.map((info, index) => (
                   <div key={index} className="flex items-center">
-                    <div className="w-12 h-12 bg-slate-900 rounded-lg flex items-center justify-center mr-4 text-emerald-400 border border-slate-800">
+                    <div className={`w-14 h-14 bg-neu shadow-neu-pressed rounded-2xl flex items-center justify-center mr-6 shrink-0 ${info.color || 'text-indigo-500'}`}>
                       {info.icon}
                     </div>
                     <div>
-                      <p className="text-slate-400 text-sm">{info.label}</p>
+                      <p className="text-gray-500 text-xs font-bold uppercase tracking-wider mb-1">{info.label}</p>
                       <a
                         href={info.link}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-white hover:text-emerald-400 transition-colors"
+                        className="text-gray-700 font-bold hover:text-indigo-500 transition-colors"
                       >
                         {info.value}
                       </a>
@@ -238,11 +234,11 @@ const Contact: React.FC = () => {
               </div>
             </div>
 
-            <div className="bg-slate-900 rounded-lg p-6 mt-8 border border-slate-800">
-              <h3 className="text-xl font-bold text-white mb-4">Looking For</h3>
-              <div className="bg-gradient-to-r from-emerald-600/15 to-cyan-600/15 p-4 rounded-lg border border-emerald-500/30">
-                <p className="text-white font-medium mb-2">Software Development Roles</p>
-                <p className="text-slate-300 text-sm">
+            <div className="bg-neu shadow-neu rounded-[2.5rem] p-10 mt-10">
+              <h3 className="text-xl font-black text-gray-800 tracking-tight mb-4">Looking For</h3>
+              <div className="bg-neu shadow-neu-pressed p-6 rounded-[2rem]">
+                <p className="text-indigo-500 font-bold mb-2">Software Development Roles</p>
+                <p className="text-gray-600 font-medium text-sm leading-relaxed">
                   Passionate about building scalable, high-performance web applications with modern technologies and
                   secure, AI-enhanced experiences. Open to remote or on-site opportunities.
                 </p>

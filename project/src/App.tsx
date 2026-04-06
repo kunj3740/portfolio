@@ -8,13 +8,11 @@ import Skills from './components/Skills';
 import Achievements from './components/Achievements';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
-import BackgroundAnimation from './components/BackgroundAnimation';
 import 'normalize.css';
 
 function App() {
   return (
-    <div className="min-h-screen bg-gray-950 text-gray-100 overflow-hidden">
-      <BackgroundAnimation />
+    <div className="min-h-screen bg-neu text-gray-700 overflow-hidden font-sans">
       <div className="relative z-10">
         <Header />
         <main>

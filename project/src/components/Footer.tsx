@@ -14,7 +14,7 @@
 //               >
 //                 Kunj<span className="text-purple-500">.</span>
 //               </a>
-//               <p className="text-gray-400 mt-2 text-sm max-w-xs">
+//               <p className="text-slate-400 mt-2 text-sm max-w-xs">
 //                 Full Stack Developer specializing in modern web technologies and AI integration.
 //               </p>
 //             </div>
@@ -25,7 +25,7 @@
 //                   href="https://github.com/kunj3740" 
 //                   target="_blank" 
 //                   rel="noopener noreferrer" 
-//                   className="text-gray-400 hover:text-white transition-colors"
+//                   className="text-slate-400 hover:text-white transition-colors"
 //                 >
 //                   <Github size={20} />
 //                 </a>
@@ -33,7 +33,7 @@
 //                   href="https://linkedin.com/in/kunj1903" 
 //                   target="_blank" 
 //                   rel="noopener noreferrer" 
-//                   className="text-gray-400 hover:text-white transition-colors"
+//                   className="text-slate-400 hover:text-white transition-colors"
 //                 >
 //                   <Linkedin size={20} />
 //                 </a>
@@ -41,12 +41,12 @@
 //                   href="mailto:kunjdave694@gmail.com" 
 //                   target="_blank" 
 //                   rel="noopener noreferrer" 
-//                   className="text-gray-400 hover:text-white transition-colors"
+//                   className="text-slate-400 hover:text-white transition-colors"
 //                 >
 //                   <Mail size={20} />
 //                 </a>
 //               </div>
-//               <p className="text-gray-500 text-sm">
+//               <p className="text-slate-500 text-sm">
 //                 &copy; {new Date().getFullYear()} Kunj Dave. All rights reserved.
 //               </p>
 //             </div>
@@ -55,13 +55,13 @@
 //           <div className="mt-8 pt-8 border-t border-gray-800 text-center">
 //             <nav>
 //               <ul className="flex flex-wrap justify-center gap-x-8 gap-y-3">
-//                 <li><a href="#hero" className="text-gray-400 hover:text-purple-400 transition-colors text-sm">Home</a></li>
-//                 <li><a href="#about" className="text-gray-400 hover:text-purple-400 transition-colors text-sm">About</a></li>
-//                 <li><a href="#experience" className="text-gray-400 hover:text-purple-400 transition-colors text-sm">Experience</a></li>
-//                 <li><a href="#projects" className="text-gray-400 hover:text-purple-400 transition-colors text-sm">Projects</a></li>
-//                 <li><a href="#skills" className="text-gray-400 hover:text-purple-400 transition-colors text-sm">Skills</a></li>
-//                 <li><a href="#achievements" className="text-gray-400 hover:text-purple-400 transition-colors text-sm">Achievements</a></li>
-//                 <li><a href="#contact" className="text-gray-400 hover:text-purple-400 transition-colors text-sm">Contact</a></li>
+//                 <li><a href="#hero" className="text-slate-400 hover:text-purple-400 transition-colors text-sm">Home</a></li>
+//                 <li><a href="#about" className="text-slate-400 hover:text-purple-400 transition-colors text-sm">About</a></li>
+//                 <li><a href="#experience" className="text-slate-400 hover:text-purple-400 transition-colors text-sm">Experience</a></li>
+//                 <li><a href="#projects" className="text-slate-400 hover:text-purple-400 transition-colors text-sm">Projects</a></li>
+//                 <li><a href="#skills" className="text-slate-400 hover:text-purple-400 transition-colors text-sm">Skills</a></li>
+//                 <li><a href="#achievements" className="text-slate-400 hover:text-purple-400 transition-colors text-sm">Achievements</a></li>
+//                 <li><a href="#contact" className="text-slate-400 hover:text-purple-400 transition-colors text-sm">Contact</a></li>
 //               </ul>
 //             </nav>
 //           </div>
@@ -79,30 +79,30 @@ import { Github, Linkedin, Mail } from 'lucide-react'
 
 const Footer: React.FC = () => {
   return (
-    <footer className="bg-slate-900 py-12 border-t border-slate-800" aria-label="Footer">
+    <footer className="bg-neu shadow-neu-pressed py-14" aria-label="Footer">
       <div className="container mx-auto px-4 md:px-8">
         <div className="max-w-6xl mx-auto">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="mb-6 md:mb-0">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-8 md:gap-0">
+            <div className="text-center md:text-left">
               <a
                 href="#hero"
-                className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400"
+                className="text-3xl font-black text-gray-800 tracking-tight"
                 aria-label="Back to top"
               >
-                Kunj<span className="text-emerald-500">.</span>
+                Kunj<span className="text-indigo-500">.</span>
               </a>
-              <p className="text-slate-400 mt-2 text-sm max-w-xs">
+              <p className="text-gray-600 font-medium mt-3 text-sm max-w-xs mx-auto md:mx-0 leading-relaxed">
                 Full Stack Developer specializing in modern web technologies and AI integration.
               </p>
             </div>
 
             <div className="flex flex-col items-center md:items-end">
-              <div className="flex space-x-4 mb-4">
+              <div className="flex space-x-5 mb-5">
                 <a
                   href="https://github.com/kunj3740"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-slate-400 hover:text-emerald-400 transition-colors"
+                  className="text-gray-600 hover:text-indigo-500 shadow-neu bg-neu p-3 rounded-full transition-all active:shadow-neu-pressed"
                   aria-label="GitHub"
                 >
                   <Github size={20} />
@@ -111,7 +111,7 @@ const Footer: React.FC = () => {
                   href="https://linkedin.com/in/kunj-dave"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-slate-400 hover:text-emerald-400 transition-colors"
+                  className="text-gray-600 hover:text-indigo-500 shadow-neu bg-neu p-3 rounded-full transition-all active:shadow-neu-pressed"
                   aria-label="LinkedIn"
                 >
                   <Linkedin size={20} />
@@ -120,51 +120,51 @@ const Footer: React.FC = () => {
                   href="mailto:kunjdave694@gmail.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-slate-400 hover:text-emerald-400 transition-colors"
+                  className="text-gray-600 hover:text-indigo-500 shadow-neu bg-neu p-3 rounded-full transition-all active:shadow-neu-pressed"
                   aria-label="Email"
                 >
                   <Mail size={20} />
                 </a>
               </div>
-              <p className="text-slate-500 text-sm">&copy; {new Date().getFullYear()} Kunj Dave. All rights reserved.</p>
+              <p className="text-gray-500 text-sm font-bold">&copy; {new Date().getFullYear()} Kunj Dave. All rights reserved.</p>
             </div>
           </div>
 
-          <div className="mt-8 pt-8 border-t border-slate-800 text-center">
+          <div className="mt-12 pt-8 text-center border-t-2 border-slate-700">
             <nav aria-label="Footer navigation">
-              <ul className="flex flex-wrap justify-center gap-x-8 gap-y-3">
+              <ul className="flex flex-wrap justify-center gap-x-8 gap-y-4">
                 <li>
-                  <a href="#hero" className="text-slate-400 hover:text-emerald-400 transition-colors text-sm">
+                  <a href="#hero" className="text-gray-600 font-bold hover:text-indigo-500 transition-colors text-sm">
                     Home
                   </a>
                 </li>
                 <li>
-                  <a href="#about" className="text-slate-400 hover:text-emerald-400 transition-colors text-sm">
+                  <a href="#about" className="text-gray-600 font-bold hover:text-indigo-500 transition-colors text-sm">
                     About
                   </a>
                 </li>
                 <li>
-                  <a href="#experience" className="text-slate-400 hover:text-emerald-400 transition-colors text-sm">
+                  <a href="#experience" className="text-gray-600 font-bold hover:text-indigo-500 transition-colors text-sm">
                     Experience
                   </a>
                 </li>
                 <li>
-                  <a href="#projects-section" className="text-slate-400 hover:text-emerald-400 transition-colors text-sm">
+                  <a href="#projects-section" className="text-gray-600 font-bold hover:text-indigo-500 transition-colors text-sm">
                     Projects
                   </a>
                 </li>
                 <li>
-                  <a href="#skills" className="text-slate-400 hover:text-emerald-400 transition-colors text-sm">
+                  <a href="#skills" className="text-gray-600 font-bold hover:text-indigo-500 transition-colors text-sm">
                     Skills
                   </a>
                 </li>
                 <li>
-                  <a href="#achievements" className="text-slate-400 hover:text-emerald-400 transition-colors text-sm">
+                  <a href="#achievements" className="text-gray-600 font-bold hover:text-indigo-500 transition-colors text-sm">
                     Achievements
                   </a>
                 </li>
                 <li>
-                  <a href="#contact" className="text-slate-400 hover:text-emerald-400 transition-colors text-sm">
+                  <a href="#contact" className="text-gray-600 font-bold hover:text-indigo-500 transition-colors text-sm">
                     Contact
                   </a>
                 </li>

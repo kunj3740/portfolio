@@ -3,6 +3,7 @@
 
 import type React from "react"
 import { useState, useEffect } from "react"
+import { motion } from "framer-motion"
 import { ExternalLink, Github, X, ChevronRight, Code, Zap } from 'lucide-react'
 
 export interface Project {
@@ -142,33 +143,26 @@ const Projects: React.FC = () => {
 
   return (
     <section id="projects-section" className="relative py-24" aria-label="Projects">
-      {/* Background */}
-      <div className="absolute inset-0 bg-[radial-gradient(60%_40%_at_50%_0%,rgba(34,211,238,0.10),transparent)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(50%_30%_at_60%_70%,rgba(16,185,129,0.08),transparent)]" />
-
-      <div className="container relative mx-auto px-4 md:px-8">
+      <div className="container relative mx-auto px-4 md:px-8 z-10">
         <div className="mb-14 text-center">
-          <h2 className="mb-2 text-4xl md:text-5xl font-bold">
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">
-              Featured Projects
-            </span>
+          <h2 className="mb-2 text-4xl md:text-5xl font-extrabold text-gray-800 tracking-tight">
+            Featured <span className="text-indigo-500">Projects</span>
           </h2>
-          <div className="w-28 h-1.5 bg-gradient-to-r from-emerald-400 to-cyan-400 mx-auto rounded-full" />
-          <p className="mx-auto max-w-2xl text-lg text-slate-300 mt-6">
+          <div className="w-28 h-1.5 shadow-neu-pressed bg-indigo-500/30 mx-auto rounded-full mt-4" />
+          <p className="mx-auto max-w-2xl text-lg text-gray-600 font-medium mt-6">
             Explore my latest work across different domains. Each project represents a unique challenge and
             demonstrates my technical expertise.
           </p>
         </div>
 
         {/* Categories */}
-        <div className="mb-12 flex flex-wrap items-center justify-center gap-3">
+        <div className="mb-12 flex flex-wrap items-center justify-center gap-4">
           <button
             onClick={() => setSelectedCategory(null)}
-            className={`group relative overflow-hidden rounded-full px-6 py-2.5 text-sm font-medium transition-all duration-300 ${
-              selectedCategory === null
-                ? "bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-lg shadow-emerald-500/20"
-                : "bg-slate-800/70 text-white/80 backdrop-blur-sm hover:bg-slate-700/70 hover:text-white border border-slate-700"
-            }`}
+            className={`group relative overflow-hidden rounded-full px-8 py-3 text-sm font-bold transition-all duration-300 ${selectedCategory === null
+                ? "bg-neu shadow-neu-pressed text-indigo-500"
+                : "bg-neu shadow-neu text-gray-600 hover:text-indigo-500"
+              }`}
           >
             <span className="relative z-10">All Projects</span>
           </button>
@@ -177,11 +171,10 @@ const Projects: React.FC = () => {
             <button
               key={category}
               onClick={() => setSelectedCategory(category)}
-              className={`group relative overflow-hidden rounded-full px-6 py-2.5 text-sm font-medium transition-all duration-300 ${
-                selectedCategory === category
-                  ? "bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-lg shadow-emerald-500/20"
-                  : "bg-slate-800/70 text-white/80 backdrop-blur-sm hover:bg-slate-700/70 hover:text-white border border-slate-700"
-              }`}
+              className={`group relative overflow-hidden rounded-full px-8 py-3 text-sm font-bold transition-all duration-300 ${selectedCategory === category
+                  ? "bg-neu shadow-neu-pressed text-indigo-500"
+                  : "bg-neu shadow-neu text-gray-600 hover:text-indigo-500"
+                }`}
             >
               <span className="relative z-10">{category}</span>
             </button>
@@ -189,27 +182,41 @@ const Projects: React.FC = () => {
         </div>
 
         {/* Grid */}
-        <div
-          className={`grid gap-8 transition-all duration-500 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 ${
-            isAnimating ? "scale-95 opacity-0" : "scale-100 opacity-100"
-          }`}
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.1 }}
+          variants={{
+            hidden: {},
+            visible: { transition: { staggerChildren: 0.12 } },
+          }}
+          className={`grid gap-10 transition-opacity transition-transform duration-500 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 ${isAnimating ? "scale-95 opacity-0" : "scale-100 opacity-100"
+            }`}
         >
-          {filteredProjects.map((project) => (
-            <div
-              key={project.id}
-              onClick={() => openProjectModal(project)}
-              className="group relative cursor-pointer overflow-hidden rounded-2xl bg-gradient-to-b from-slate-800/60 to-slate-900/80 shadow-xl shadow-black/20 backdrop-blur-sm transition-all duration-500 hover:scale-[1.02] hover:shadow-emerald-500/20"
-            >
-              <div className="relative aspect-video overflow-hidden">
+          {filteredProjects.map((project) => {
+            const getTagStyle = () => {
+              return 'clay-slate text-slate-900';
+            };
+
+            return (
+              <motion.div
+                key={project.id}
+                variants={{
+                  hidden: { opacity: 0, y: 40 },
+                  visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: [0.4, 0, 0.2, 1] } },
+                }}
+                onClick={() => openProjectModal(project)}
+                className="group cursor-pointer rounded-[2.5rem] bg-neu p-5 shadow-neu transition-transform duration-300 hover:-translate-y-2"
+              >
+              <div className="relative aspect-video overflow-hidden rounded-[2rem] shadow-neu-pressed p-2">
                 <img
                   src={project.image || "/placeholder.svg?height=400&width=600&query=project image"}
                   alt={project.title}
-                  className="h-full w-full object-cover object-center transition-all duration-700 group-hover:scale-110"
+                  className="h-full w-full object-cover object-center rounded-2xl transition-all duration-700 group-hover:scale-105"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-black/10" />
 
                 <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                  <div className="rounded-full bg-emerald-600/90 px-6 py-2.5 text-sm font-medium text-white backdrop-blur-sm transition-all duration-300 hover:bg-emerald-500">
+                  <div className="clay-pill bg-neu/90 backdrop-blur-md px-6 py-2.5 text-sm font-bold text-gray-800 transition-all duration-300 hover:text-indigo-500">
                     View Details
                   </div>
                 </div>
@@ -220,7 +227,7 @@ const Projects: React.FC = () => {
                     {project.categories.map((category) => (
                       <span
                         key={category}
-                        className="rounded-full bg-emerald-600/80 px-3 py-1 text-xs font-medium text-white backdrop-blur-sm"
+                        className="clay-pill bg-slate-600/80 px-3 py-1 text-[10px] uppercase tracking-wider font-bold backdrop-blur-sm"
                       >
                         {category}
                       </span>
@@ -229,14 +236,14 @@ const Projects: React.FC = () => {
                 </div>
               </div>
 
-              <div className="p-6">
+              <div className="p-4 mt-2">
                 <div className="mb-4">
                   <div className="flex items-start justify-between gap-3">
                     <div>
-                      <h3 className="bg-gradient-to-r from-white to-white/90 bg-clip-text text-xl font-bold text-transparent">
+                      <h3 className="text-xl font-black text-gray-800 tracking-tight">
                         {project.title}
                       </h3>
-                      <p className="text-sm text-emerald-300">{project.subtitle}</p>
+                      <p className="text-sm font-bold text-indigo-500 mt-1">{project.subtitle}</p>
                     </div>
                     <div className="flex gap-2">
                       <a
@@ -244,54 +251,53 @@ const Projects: React.FC = () => {
                         target="_blank"
                         rel="noopener noreferrer"
                         onClick={(e) => e.stopPropagation()}
-                        className="group/link flex items-center gap-1 rounded-full bg-slate-800/80 px-3 py-1 text-xs text-white/90 backdrop-blur-sm transition-all hover:bg-emerald-600 hover:text-white"
+                        className="flex items-center gap-1 clay-pill clay-btn bg-neu p-3 text-gray-600 transition-all hover:text-indigo-500"
                       >
-                        <ExternalLink size={12} />
-                        <span>Live</span>
+                        <ExternalLink size={14} />
                       </a>
                       <a
                         href={project.githubLink}
                         target="_blank"
                         rel="noopener noreferrer"
                         onClick={(e) => e.stopPropagation()}
-                        className="group/link flex items-center gap-1 rounded-full bg-slate-800/80 px-3 py-1 text-xs text-white/90 backdrop-blur-sm transition-all hover:bg-emerald-600 hover:text-white"
+                        className="flex items-center gap-1 clay-pill clay-btn bg-neu p-3 text-gray-600 transition-all hover:text-indigo-500"
                       >
-                        <Github size={12} />
-                        <span>Code</span>
+                        <Github size={14} />
                       </a>
                     </div>
                   </div>
                 </div>
 
-                <p className="mb-4 line-clamp-2 text-sm leading-relaxed text-slate-300">{project.description}</p>
+                <p className="mb-6 line-clamp-2 text-sm font-medium leading-relaxed text-gray-600">{project.description}</p>
 
                 <div className="flex flex-wrap gap-2">
                   {project.techStack.slice(0, 4).map((tech) => (
                     <span
                       key={tech}
-                      className="rounded-full bg-slate-800/80 px-3 py-1 text-xs text-emerald-200/90 backdrop-blur-sm"
+                      className={`${getTagStyle()} clay-slate px-3 py-1.5 text-[10px] font-mint`}
                     >
                       {tech}
                     </span>
                   ))}
                   {project.techStack.length > 4 && (
-                    <span className="rounded-full bg-slate-800/80 px-3 py-1 text-xs text-emerald-200/90 backdrop-blur-sm">
-                      +{project.techStack.length - 4} more
+                    <span className="clay-slate px-3 py-1.5 text-[10px] font-black text-slate-900">
+                      +{project.techStack.length - 4} More
                     </span>
                   )}
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
+              </motion.div>
+          );
+          })}
+        </motion.div>
 
         {/* Empty state */}
         {filteredProjects.length === 0 && !isAnimating && (
-          <div className="mt-12 rounded-lg bg-slate-800/50 p-8 text-center backdrop-blur-sm border border-slate-700/60">
-            <p className="text-lg text-white/80">No projects found in this category.</p>
+          <div className="mt-12 rounded-[2.5rem] bg-neu shadow-neu-pressed p-10 text-center mx-auto max-w-lg">
+            <p className="text-lg font-bold text-gray-600">No projects found in this category.</p>
             <button
               onClick={() => setSelectedCategory(null)}
-              className="mt-4 rounded-full bg-emerald-600 px-6 py-2 text-sm font-medium text-white transition-all hover:bg-emerald-500"
+              className="mt-6 rounded-full shadow-neu bg-neu px-8 py-3 text-sm font-bold text-indigo-500 transition-all active:shadow-neu-pressed hover:text-indigo-500"
             >
               View All Projects
             </button>
@@ -303,37 +309,35 @@ const Projects: React.FC = () => {
       {isModalOpen && selectedProject && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4" role="dialog" aria-modal="true">
           {/* Backdrop */}
-          <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={closeProjectModal} />
+          <div className="absolute inset-0 bg-neu/80 backdrop-blur-sm" onClick={closeProjectModal} />
 
           <div
-            className="relative max-h-[90vh] w-full max-w-4xl overflow-y-auto rounded-2xl bg-gradient-to-b from-slate-900/95 to-black/95 p-1 shadow-xl backdrop-blur-md"
+            className="relative max-h-[95vh] w-full max-w-4xl overflow-y-auto rounded-[2.5rem] shadow-neu-pressed bg-neu p-4"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="h-full rounded-xl bg-slate-900/90 p-5 md:p-6 border border-slate-800/60">
+            <div className="h-full rounded-[2rem] bg-neu p-6 md:p-8 shadow-neu relative">
               <button
                 onClick={closeProjectModal}
-                className="absolute right-4 top-4 z-20 rounded-full bg-slate-800/90 p-2 text-white/90 transition-all hover:bg-emerald-600 hover:text-white"
-                style={{ boxShadow: "0 0 10px rgba(0,0,0,0.5)" }}
+                className="absolute right-6 top-6 z-20 rounded-full shadow-neu bg-neu p-3 text-gray-500 transition-all active:shadow-neu-pressed hover:text-red-500 outline-none"
                 aria-label="Close"
               >
                 <X size={20} />
               </button>
 
-              <div className="grid gap-6 md:grid-cols-5">
+              <div className="grid gap-8 md:grid-cols-5 mt-4">
                 {/* Image */}
-                <div className="relative aspect-video overflow-hidden rounded-xl md:col-span-2">
+                <div className="relative aspect-video overflow-hidden rounded-[2rem] shadow-neu-pressed p-2 md:col-span-2">
                   <img
                     src={selectedProject.image || "/placeholder.svg?height=400&width=600&query=project image"}
                     alt={selectedProject.title}
-                    className="h-full w-full object-cover object-center"
+                    className="h-full w-full object-cover object-center rounded-2xl"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
-                  <div className="absolute bottom-3 left-3 right-3">
-                    <div className="flex flex-wrap gap-1">
+                  <div className="absolute bottom-4 left-4 right-4">
+                    <div className="flex flex-wrap gap-2">
                       {selectedProject.categories.map((category) => (
                         <span
                           key={category}
-                          className="rounded-full bg-emerald-600/85 px-2 py-0.5 text-xs font-medium text-white backdrop-blur-sm"
+                          className="rounded-full shadow-neu bg-neu/90 px-3 py-1 text-xs font-bold text-slate-300 backdrop-blur-sm"
                         >
                           {category}
                         </span>
@@ -344,50 +348,52 @@ const Projects: React.FC = () => {
 
                 {/* Details */}
                 <div className="flex flex-col md:col-span-3">
-                  <div className="mb-4">
-                    <h2 className="bg-gradient-to-r from-white to-white/90 bg-clip-text text-2xl font-bold text-transparent">
+                  <div className="mb-6">
+                    <h2 className="text-3xl font-black text-gray-800 tracking-tight">
                       {selectedProject.title}
                     </h2>
-                    <p className="text-sm text-emerald-300">{selectedProject.subtitle}</p>
+                    <p className="text-sm font-bold text-indigo-500 mt-2">{selectedProject.subtitle}</p>
                   </div>
 
-                  <p className="mb-4 text-sm text-white/85">{selectedProject.description}</p>
+                  <p className="mb-6 text-sm font-medium leading-relaxed text-gray-600">{selectedProject.description}</p>
 
-                  <div className="mb-4">
-                    <h3 className="mb-2 flex items-center gap-1 text-base font-semibold text-white">
-                      <Code size={16} className="text-emerald-400" />
+                  <div className="mb-6">
+                    <h3 className="mb-3 flex items-center gap-2 text-base font-bold text-gray-800">
+                      <Code size={18} className="text-violet-500" />
                       Tech Stack
                     </h3>
-                    <div className="flex flex-wrap gap-2">
+                    <div className="flex flex-wrap gap-3">
                       {selectedProject.techStack.map((tech) => (
-                        <span key={tech} className="rounded-full bg-white/10 px-3 py-1 text-xs text-white/85 backdrop-blur-sm">
+                        <span key={tech} className="clay-slate px-4 py-1.5 text-xs font-bold text-slate-900">
                           {tech}
                         </span>
                       ))}
                     </div>
                   </div>
 
-                  <div className="mb-4">
-                    <h3 className="mb-2 flex items-center gap-1 text-base font-semibold text-white">
-                      <Zap size={16} className="text-cyan-400" />
+                  <div className="mb-8">
+                    <h3 className="mb-3 flex items-center gap-2 text-base font-bold text-gray-800">
+                      <Zap size={18} className="text-amber-500" />
                       Key Features
                     </h3>
-                    <ul className="grid gap-2">
+                    <ul className="grid gap-3">
                       {selectedProject.features.map((feature, index) => (
-                        <li key={index} className="flex items-start gap-2 text-sm text-white/85">
-                          <ChevronRight size={14} className="mt-1 shrink-0 text-emerald-400" />
-                          <span>{feature}</span>
+                        <li key={index} className="flex items-start gap-3 text-sm font-medium text-gray-600">
+                          <div className="mt-0.5 clay-emerald p-1.5 text-slate-900 flex-shrink-0">
+                            <ChevronRight size={12} strokeWidth={3} />
+                          </div>
+                          <span className="leading-relaxed">{feature}</span>
                         </li>
                       ))}
                     </ul>
                   </div>
 
-                  <div className="mt-auto flex gap-4 pt-4">
+                  <div className="mt-auto flex flex-wrap gap-4 pt-4 border-t-2 border-slate-700">
                     <a
                       href={selectedProject.liveLink}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-2 rounded-full bg-gradient-to-r from-emerald-600 to-teal-600 px-5 py-2 text-sm font-medium text-white transition-all hover:from-emerald-500 hover:to-teal-500"
+                      className="flex items-center gap-2 rounded-full shadow-neu bg-neu px-6 py-3 text-sm font-bold text-indigo-400 transition-all active:shadow-neu-pressed hover:text-indigo-500"
                     >
                       <ExternalLink size={16} />
                       <span>View Live</span>
@@ -396,7 +402,7 @@ const Projects: React.FC = () => {
                       href={selectedProject.githubLink}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-2 rounded-full bg-slate-800/80 px-5 py-2 text-sm font-medium text-white backdrop-blur-sm transition-all hover:bg-slate-700/90"
+                      className="flex items-center gap-2 rounded-full shadow-neu bg-neu px-6 py-3 text-sm font-bold text-gray-600 transition-all active:shadow-neu-pressed hover:text-indigo-500"
                     >
                       <Github size={16} />
                       <span>View Code</span>

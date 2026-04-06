@@ -22,10 +22,16 @@ export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [active, setActive] = useState<string>("#hero")
+  const [scrollProgress, setScrollProgress] = useState(0)
 
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 10)
-    window.addEventListener("scroll", handleScroll)
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 10)
+      const totalHeight = document.body.scrollHeight - window.innerHeight
+      const progress = totalHeight > 0 ? (window.scrollY / totalHeight) : 0
+      setScrollProgress(progress)
+    }
+    window.addEventListener("scroll", handleScroll, { passive: true })
     handleScroll()
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
@@ -64,44 +70,52 @@ export default function Header() {
         isScrolled ? "py-2" : "py-4"
       }`}
     >
+      {/* Scroll progress bar */}
       <div
-        className={`mx-4 md:mx-8 rounded-xl border backdrop-blur supports-[backdrop-filter]:bg-slate-950/50 ${
-          isScrolled ? "border-slate-800/70 bg-slate-950/60" : "border-slate-800/40 bg-slate-950/40"
+        aria-hidden="true"
+        className="fixed top-0 left-0 right-0 h-[3px] z-[100] pointer-events-none"
+        style={{
+          background: "linear-gradient(to right, #6366f1, #a78bfa)",
+          transformOrigin: "left",
+          transform: `scaleX(${scrollProgress})`,
+          transition: "transform 0.1s linear",
+        }}
+      />
+      <div
+        className={`mx-4 md:mx-8 rounded-full bg-neu transition-all ${
+          isScrolled ? "shadow-neu" : "shadow-neu"
         }`}
       >
-        <div className="container mx-auto px-4 md:px-6 h-14 flex items-center justify-between">
+        <div className="container mx-auto px-4 md:px-6 h-16 flex items-center justify-between">
           <a
             href="#hero"
-            className="text-lg md:text-xl font-extrabold tracking-tight bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent"
+            className="text-lg md:text-xl font-extrabold tracking-tight text-gray-800"
             aria-label="Go to home"
           >
             Kunj Dave
           </a>
 
           {/* Desktop nav */}
-          <nav className="hidden md:flex items-center gap-6" aria-label="Main navigation">
+          <nav className="hidden md:flex items-center gap-2" aria-label="Main navigation">
             {nav.map((link) => {
               const isActive = active === link.href
               return (
                 <a
                   key={link.href}
                   href={link.href}
-                  className={`relative text-sm transition-colors ${
-                    isActive ? "text-white" : "text-slate-300 hover:text-emerald-300"
+                  className={`px-4 py-2 rounded-full text-sm font-semibold transition-all ${
+                    isActive
+                      ? "shadow-neu-pressed text-indigo-500"
+                      : "text-gray-500 hover:text-indigo-500 hover:shadow-neu"
                   }`}
                 >
                   {link.name}
-                  <span
-                    className={`absolute -bottom-1 left-0 h-[2px] rounded-full bg-gradient-to-r from-emerald-400 to-cyan-400 transition-all ${
-                      isActive ? "w-full" : "w-0 group-hover:w-full"
-                    }`}
-                  />
                 </a>
               )
             })}
             <a
               href="#contact"
-              className="ml-2 inline-flex items-center rounded-md border border-emerald-500/40 bg-emerald-600/10 px-3 py-1.5 text-sm text-emerald-300 hover:bg-emerald-600/20 transition-colors"
+              className="ml-4 px-6 py-2 rounded-full shadow-neu text-sm font-bold text-gray-600 hover:text-indigo-500 active:shadow-neu-pressed transition-all"
             >
               Let’s talk
             </a>
@@ -109,13 +123,13 @@ export default function Header() {
 
           {/* Mobile menu toggle */}
           <button
-            className="md:hidden text-slate-200 p-2 rounded-md hover:bg-slate-800/70 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+            className="md:hidden text-gray-500 w-10 h-10 rounded-full flex items-center justify-center shadow-neu active:shadow-neu-pressed transition-all focus:outline-none"
             onClick={() => setIsMenuOpen((s) => !s)}
             aria-expanded={isMenuOpen}
             aria-controls="mobile-nav"
             aria-label="Toggle menu"
           >
-            {isMenuOpen ? <X size={22} /> : <Menu size={22} />}
+            {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
         </div>
 
@@ -123,10 +137,10 @@ export default function Header() {
         {isMenuOpen && (
           <nav
             id="mobile-nav"
-            className="md:hidden border-t border-slate-800/60 px-4 py-3"
+            className="md:hidden rounded-b-3xl bg-neu shadow-neu-pressed mx-2 mb-2 p-4 mt-2"
             aria-label="Mobile navigation"
           >
-            <ul className="flex flex-col">
+            <ul className="flex flex-col gap-2">
               {nav.map((link) => {
                 const isActive = active === link.href
                 return (
@@ -134,8 +148,10 @@ export default function Header() {
                     <a
                       href={link.href}
                       onClick={() => setIsMenuOpen(false)}
-                      className={`block w-full rounded-md px-3 py-2 text-sm transition-colors ${
-                        isActive ? "text-white bg-slate-800/60" : "text-slate-300 hover:text-white hover:bg-slate-800/40"
+                      className={`block w-full rounded-2xl px-4 py-3 text-center text-sm font-semibold transition-all ${
+                        isActive
+                          ? "shadow-neu-pressed text-indigo-500"
+                          : "text-gray-500 shadow-neu active:shadow-neu-pressed"
                       }`}
                     >
                       {link.name}
@@ -143,11 +159,11 @@ export default function Header() {
                   </li>
                 )
               })}
-              <li className="pt-2">
+              <li className="pt-4">
                 <a
                   href="#contact"
                   onClick={() => setIsMenuOpen(false)}
-                  className="block w-full text-center rounded-md border border-emerald-500/40 bg-emerald-600/10 px-3 py-2 text-sm text-emerald-300 hover:bg-emerald-600/20 transition-colors"
+                  className="block w-full shadow-neu rounded-2xl text-center px-4 py-3 text-sm font-bold text-gray-600 hover:text-indigo-500 active:shadow-neu-pressed transition-all"
                 >
                   Let’s talk
                 </a>
